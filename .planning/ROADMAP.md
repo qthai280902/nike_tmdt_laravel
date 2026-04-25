@@ -5,12 +5,26 @@ This journey takes the project from a fresh Laravel installation to a high-end N
 
 ## Phases
 
+- [ ] **Phase 0: Core Architecture & Identity** - Set up Database Schema (B2C + C2C), Roles, and Eloquent Models.
 - [ ] **Phase 1: Brand Foundation & Landing** - Establish Nike aesthetic and build the hero landing page.
 - [ ] **Phase 2: Product Ecosystem** - Build the high-density product grid and detail views.
 - [ ] **Phase 3: Shopping Experience** - Implement cart and checkout flows.
 - [ ] **Phase 4: Identity & Security** - Implement user authentication and session management.
 
 ## Phase Details
+
+### Phase 0: Core Architecture & Identity
+**Goal**: Set up the database foundation for the hybrid B2C/C2C model, including users, categories, products, and marketplace listings.
+**Depends on**: Nothing (Baseline)
+**Requirements**: [AUTH-01, AUTH-02, PROD-01, C2C-01]
+**Success Criteria**:
+  1. Database migrations for both B2C and C2C tables are created and migrated.
+  2. Eloquent models with UUID support and clear relationships are defined.
+  3. Strict separation of store products and marketplace listings is maintained.
+**Plans**: 1 plan
+
+Plans:
+- [ ] 00-01: Schema & Model Architecture (B2C + C2C)
 
 ### Phase 1: Brand Foundation & Landing
 **Goal**: Establish the Nike visual identity and launch the hero welcome page.
@@ -74,6 +88,7 @@ Plans:
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
+| 0. Core Architecture | 1/1 | Complete | 2026-04-26 |
 | 1. Brand Foundation | 0/3 | Not started | - |
 | 2. Product Ecosystem | 0/2 | Not started | - |
 | 3. Shopping Experience | 0/2 | Not started | - |

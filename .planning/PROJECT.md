@@ -14,6 +14,7 @@ Delivering an explosive, high-performance retail experience through visual excel
 - ✓ **Database Session Management** — Configured and migrated
 
 ### Active
+- [ ] **Phase 0: Core Architecture & Identity** — Database Schema (B2C + C2C), Models, Roles.
 - [ ] **Modern Landing Page** — Implementing the welcome page using the Nike aesthetic (96px headlines, pill buttons, full-bleed images).
 - [ ] **Product Listing System** — Displaying high-quality product grids with athletic focus.
 - [ ] **Authentication System** — Secure user login and registration following design standards.
