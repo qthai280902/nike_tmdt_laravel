@@ -6,27 +6,40 @@
 @source '../**/*.js';
 
 @theme {
-    /* Nike Brand Colors */
+    /* 1. Podium CDS Color Palette */
     --color-nike-black: #111111;
+    --color-nike-white: #FFFFFF;
     --color-nike-snow: #FAFAFA;
     --color-nike-gray-100: #F5F5F5;
     --color-nike-gray-200: #E5E5E5;
     --color-nike-gray-300: #CACACB;
     --color-nike-gray-500: #707072;
+    --color-nike-gray-800: #28282A;
+    --color-nike-gray-900: #1F1F21;
+
     --color-nike-red: #D30005;
     --color-nike-blue: #1151FF;
+    --color-nike-green: #007D48;
+    --color-nike-orange: #FF5000;
 
-    /* Typography */
+    /* 2. Typography Strategy */
     --font-nike-display: "Nike Futura ND", "Helvetica Now Display Medium", "Helvetica", "Arial", sans-serif;
     --font-nike-body: "Helvetica Now Text", "Helvetica", "Arial", sans-serif;
-
-    /* Base Overrides */
+    
     --font-sans: var(--font-nike-body);
+
+    /* 3. Spacing Grid (8px base) */
+    --spacing-nike-1: 4px;
+    --spacing-nike-2: 8px;
+    --spacing-nike-4: 16px;
+    --spacing-nike-6: 24px;
+    --spacing-nike-8: 48px;
+    --spacing-nike-10: 80px;
 }
 
 @layer utilities {
-    /* Extreme Minimalism / Kinetic Typography */
-    .text-display-hero {
+    /* Kinetic Typography Shockwave */
+    .text-nike-hero {
         font-family: var(--font-nike-display);
         font-size: clamp(48px, 10vw, 96px);
         line-height: 0.90;
@@ -35,29 +48,45 @@
         letter-spacing: -0.02em;
     }
 
-    .text-display-section {
+    .text-nike-section {
         font-family: var(--font-nike-display);
         font-size: 32px;
-        line-height: 1.2;
+        line-height: 1.20;
         font-weight: 500;
         text-transform: uppercase;
     }
 
-    .pill-shadow-none {
-        box-shadow: none;
+    /* Athletic Discipline Layout */
+    .nike-grid-tight {
+        display: grid;
+        gap: 12px; /* Tight grid gap policy */
     }
 
-    .border-nike {
-        border-color: var(--color-nike-gray-300);
+    .pill-button-radius {
+        border-radius: 30px;
+    }
+
+    .no-border-radius {
+        border-radius: 0px !important;
     }
 }
 
 @layer base {
     body {
-        @apply bg-white text-nike-black antialiased overflow-x-hidden;
+        @apply bg-white text-nike-black antialiased;
+        font-family: var(--font-nike-body);
     }
     
-    h1, h2, h3, h4, h5, h6 {
-        @apply font-nike-display uppercase;
+    h1, h2, h3 {
+        @apply font-nike-display uppercase tracking-tight;
+    }
+
+    /* Interactive text always weight 500 per Nike rules */
+    a, button {
+        @apply font-medium;
+    }
+
+    input::placeholder {
+        @apply text-nike-gray-500;
     }
 }

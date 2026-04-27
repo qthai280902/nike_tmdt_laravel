@@ -25,7 +25,7 @@ class AuthController extends Controller
         ]);
 
         if ($this->authService->login($credentials, $request->boolean('remember'))) {
-            return redirect()->intended(route('products.index'));
+            return redirect()->intended(route('catalog.index'));
         }
 
         return back()->withErrors([
@@ -48,7 +48,7 @@ class AuthController extends Controller
 
         $this->authService->register($data);
 
-        return redirect()->route('products.index');
+        return redirect()->route('catalog.index');
     }
 
     public function logout()

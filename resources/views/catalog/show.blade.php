@@ -1,72 +1,87 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>{{ $product->name }} | Nike Hybrid</title>
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-    </head>
-    <body class="selection:bg-nike-black selection:text-white">
-        <nav class="bg-white border-b border-nike-gray-200">
-            <div class="max-w-[1920px] mx-auto px-6 md:px-12 h-16 flex items-center justify-between">
-                <a href="/" class="flex-shrink-0"><svg class="w-16 h-16 fill-nike-black" viewBox="0 0 24 24"><path d="M21 8.75c0 0-4.5 6-12.5 6s-6.5-2-6.5-2 1.5 4 7.5 4 11.5-8 11.5-8z"/></svg></a>
-                <div class="flex items-center space-x-6">
-                    <a href="{{ route('products.index') }}" class="font-nike-body font-medium uppercase text-sm">Back to Catalog</a>
-                </div>
-            </div>
-        </nav>
+@extends('layouts.app')
 
-        <main class="max-w-[1920px] mx-auto min-h-screen">
-            <div class="flex flex-col lg:flex-row">
-                {{-- Left: Full-bleed Image Gallery --}}
-                <div class="w-full lg:w-[60%] bg-nike-gray-100">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-1 px-1">
-                        <div class="aspect-square bg-nike-gray-200 flex items-center justify-center text-nike-gray-400 font-nike-display text-4xl uppercase">Image 1</div>
-                        <div class="aspect-square bg-nike-gray-200 flex items-center justify-center text-nike-gray-400 font-nike-display text-4xl uppercase">Image 2</div>
-                        <div class="aspect-square bg-nike-gray-200 flex items-center justify-center text-nike-gray-400 font-nike-display text-4xl uppercase">Image 3</div>
-                        <div class="aspect-square bg-nike-gray-200 flex items-center justify-center text-nike-gray-400 font-nike-display text-4xl uppercase">Image 4</div>
+@section('title', $product->name . ' | Nike Hybrid')
+
+@section('content')
+<section class="max-w-[1920px] mx-auto px-6 md:px-12 py-12">
+    <div class="flex flex-col lg:flex-row gap-16">
+        {{-- Image Gallery --}}
+        <div class="w-full lg:w-2/3 space-y-4">
+            <div class="aspect-square bg-nike-gray-100 flex items-center justify-center text-nike-gray-300 font-nike-display text-6xl">
+                {{ $product->name }}
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="aspect-square bg-nike-gray-100"></div>
+                <div class="aspect-square bg-nike-gray-100"></div>
+            </div>
+        </div>
+
+        {{-- Product Info --}}
+        <div class="w-full lg:w-1/3">
+            <div class="sticky top-28">
+                <h1 class="text-3xl font-nike-display uppercase leading-tight mb-2">{{ $product->name }}</h1>
+                <p class="text-nike-gray-500 font-nike-body mb-6">{{ $product->category->name }}</p>
+                <p class="text-xl font-nike-body font-medium mb-12">${{ number_format($product->price, 2) }}</p>
+
+                {{-- Sizing --}}
+                <div class="mb-12">
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="font-nike-body font-medium uppercase text-sm">Select Size</span>
+                        <a href="#" class="text-nike-gray-500 text-sm underline">Size Guide</a>
+                    </div>
+                    <div class="grid grid-cols-3 gap-2">
+                        @foreach($product->variants as $variant)
+                            <button 
+                                onclick="selectVariant('{{ $variant->id }}')"
+                                id="variant-btn-{{ $variant->id }}"
+                                class="variant-selector-btn border border-nike-gray-200 py-3 rounded-md font-nike-body hover:border-nike-black transition-colors"
+                            >
+                                {{ str_replace('US ', '', $variant->size) }}
+                            </button>
+                        @endforeach
                     </div>
                 </div>
 
-                {{-- Right: Sticky Product Info --}}
-                <div class="w-full lg:w-[40%] px-6 md:px-12 py-12 lg:sticky lg:top-16 lg:h-screen overflow-y-auto">
-                    <div class="max-w-md">
-                        <h1 class="text-3xl font-nike-display uppercase mb-2">{{ $product->name }}</h1>
-                        <p class="font-nike-body font-medium text-lg mb-8">${{ number_format($product->price, 2) }}</p>
+                {{-- Action Buttons --}}
+                <div class="space-y-3">
+                    <x-pill-button 
+                        onclick="handleAddToCart()"
+                        class="w-full py-5 text-lg"
+                    >
+                        Add to Bag
+                    </x-pill-button>
+                    <button class="w-full py-5 border border-nike-gray-200 rounded-full font-nike-body font-medium flex items-center justify-center hover:border-nike-black">
+                        Favourite
+                        <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                    </button>
+                </div>
 
-                        <div class="mb-12">
-                            <h3 class="font-nike-body font-medium mb-4 uppercase text-sm tracking-wider">Select Size</h3>
-                            <div class="grid grid-cols-3 gap-2">
-                                @foreach($product->variants->unique('size') as $variant)
-                                    <button class="border border-nike-gray-200 py-4 rounded-md hover:border-nike-black transition-all font-nike-body font-medium {{ $variant->stock == 0 ? 'opacity-30 cursor-not-allowed bg-nike-gray-100' : '' }}">
-                                        {{ str_replace('US ', '', $variant->size) }}
-                                    </button>
-                                @endforeach
-                            </div>
-                            <p class="mt-4 text-xs text-nike-gray-500 font-nike-body">Size Guide</p>
-                        </div>
-
-                        <div class="space-y-4 mb-12">
-                            <x-pill-button class="w-full py-5 text-lg">Add to Bag</x-pill-button>
-                            <x-pill-button variant="secondary" class="w-full py-5 text-lg">Favorite <span class="ml-2">♡</span></x-pill-button>
-                        </div>
-
-                        <div class="border-t border-nike-gray-200 pt-8">
-                            <p class="font-nike-body leading-relaxed text-nike-black mb-8">
-                                {{ $product->description }}
-                            </p>
-                            <ul class="list-disc pl-5 font-nike-body text-sm space-y-2 text-nike-gray-500">
-                                <li>Shown: {{ $product->variants->first()->color ?? 'Classic' }}</li>
-                                <li>Style: {{ $product->variants->first()->sku ?? 'N/A' }}</li>
-                            </ul>
-                        </div>
-                    </div>
+                <div class="mt-12 prose prose-sm font-nike-body text-nike-gray-500 leading-relaxed">
+                    <p>{{ $product->description }}</p>
                 </div>
             </div>
-        </main>
+        </div>
+    </div>
+</section>
 
-        <footer class="bg-nike-black text-white py-12 px-6 md:px-12 mt-24">
-             <p class="text-xs text-nike-gray-500 text-center">&copy; 2026 Nike Hybrid, Inc. All Rights Reserved</p>
-        </footer>
-    </body>
-</html>
+<script>
+    let selectedVariantId = null;
+
+    function selectVariant(id) {
+        selectedVariantId = id;
+        document.querySelectorAll('.variant-selector-btn').forEach(btn => {
+            btn.classList.remove('border-nike-black', 'bg-nike-black', 'text-white');
+        });
+        document.getElementById('variant-btn-' + id).classList.add('border-nike-black', 'bg-nike-black', 'text-white');
+    }
+
+    function handleAddToCart() {
+        if (!selectedVariantId) {
+            alert('Please select a size first.');
+            return;
+        }
+        // Gọi hàm từ component cart-drawer
+        addToCart(selectedVariantId);
+    }
+</script>
+@endsection

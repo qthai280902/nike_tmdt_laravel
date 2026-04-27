@@ -11,8 +11,8 @@ Route::get('/', function () {
 // B2C Catalog Routes
 Route::prefix('catalog')->group(function () {
     Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
-    Route::get('/products', [ProductController::class, 'index'])->name('products.index');
-    Route::get('/products/{slug}', [ProductController::class, 'show'])->name('products.show');
+    Route::get('/products', [ProductController::class, 'index'])->name('catalog.index');
+    Route::get('/products/{slug}', [ProductController::class, 'show'])->name('catalog.show');
 });
 
 Route::get('/checkout', [ProductController::class, 'index'])->name('checkout.index'); // Placeholder for view
