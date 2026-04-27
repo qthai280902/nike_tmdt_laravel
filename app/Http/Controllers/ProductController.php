@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Product;
 use App\Http\Resources\ProductResource;
 use App\Services\ProductService;
 use Illuminate\Http\JsonResponse;
@@ -32,6 +33,20 @@ class ProductController extends Controller
     }
 
     /**
+     * Display only discounted products.
+     */
+    public function sale(Request $request): View
+    {
+        $filters = $request->all();
+        $filters['on_sale'] = true;
+        
+        $products = $this->productService->getCatalogProducts($filters, $request->get('limit', 12));
+        $categories = Category::all();
+
+        return view('catalog.index', compact('products', 'categories'));
+    }
+
+    /**
      * Display the specified product.
      */
     public function show(Request $request, string $slug): JsonResponse|View
@@ -50,5 +65,31 @@ class ProductController extends Controller
         }
 
         return view('catalog.show', compact('product'));
+    }
+
+    /**
+     * Get search suggestions as JSON.
+     */
+    public function searchSuggestions(Request $request)
+    {
+        $query = $request->get('q');
+        
+        if (strlen($query) < 2) {
+            return response()->json([]);
+        }
+
+        $products = Product::where('name', 'LIKE', "%{$query}%")
+            ->with('category')
+            ->limit(5)
+            ->get();
+
+        return response()->json($products->map(function($product) {
+            return [
+                'name' => $product->name,
+                'slug' => $product->slug,
+                'category' => $product->category->name,
+                'image' => $product->image_url
+            ];
+        }));
     }
 }

@@ -3,23 +3,29 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\AboutController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\Admin\StorefrontController;
 
-Route::get('/', [HomeController::class, 'index']);
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/about-us', [AboutController::class, 'index'])->name('about');
+Route::get('/discount-sale', [ProductController::class, 'sale'])->name('catalog.sale');
 
 // B2C Catalog Routes
 Route::prefix('catalog')->group(function () {
     Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
     Route::get('/products', [ProductController::class, 'index'])->name('catalog.index');
     Route::get('/products/{slug}', [ProductController::class, 'show'])->name('catalog.show');
+    Route::get('/search/suggestions', [ProductController::class, 'searchSuggestions'])->name('search.suggestions');
 });
 
 Route::get('/checkout', [ProductController::class, 'index'])->name('checkout.index');
 Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
+Route::post('/cart/remove', [CartController::class, 'remove'])->name('cart.remove');
+Route::get('/cart/fragment', [CartController::class, 'fragment'])->name('cart.fragment');
 
 // Auth Group
 Route::controller(AuthController::class)->group(function () {

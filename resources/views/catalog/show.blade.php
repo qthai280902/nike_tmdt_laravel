@@ -3,6 +3,54 @@
 @section('title', $product->name . ' | Nike Hybrid')
 
 @section('content')
+    </div>
+</div>
+
+{{-- SIZE GUIDE MODAL --}}
+<div id="size-guide-modal" class="fixed inset-0 z-[9999] flex items-center justify-center hidden">
+    <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="toggleSizeGuide()"></div>
+    <div class="relative bg-white p-8 md:p-12 max-w-2xl w-full mx-4 shadow-2xl animate-[scale-in_0.3s_ease-out]">
+        <button onclick="toggleSizeGuide()" class="absolute top-6 right-6 p-2 hover:bg-nike-gray-100 rounded-full">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+        
+        <h2 class="text-3xl font-nike-display uppercase mb-8">Bảng Kích Cỡ Giày Nike</h2>
+        
+        <div class="overflow-x-auto">
+            <table class="w-full text-left font-nike-body border-collapse">
+                <thead>
+                    <tr class="bg-nike-gray-100 uppercase text-xs tracking-tighter border-b border-nike-gray-200">
+                        <th class="px-6 py-4 font-bold italic">US (Mỹ)</th>
+                        <th class="px-6 py-4 font-bold italic">EU (Châu Âu)</th>
+                        <th class="px-6 py-4 font-bold italic">CM (Chiều dài chân)</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-nike-gray-200">
+                    <tr class="hover:bg-nike-snow">
+                        <td class="px-6 py-4">7</td><td class="px-6 py-4">40</td><td class="px-6 py-4">25 cm</td>
+                    </tr>
+                    <tr class="hover:bg-nike-snow">
+                        <td class="px-6 py-4">8</td><td class="px-6 py-4">41</td><td class="px-6 py-4">26 cm</td>
+                    </tr>
+                    <tr class="hover:bg-nike-snow">
+                        <td class="px-6 py-4">9</td><td class="px-6 py-4">42.5</td><td class="px-6 py-4">27 cm</td>
+                    </tr>
+                    <tr class="hover:bg-nike-snow">
+                        <td class="px-6 py-4">10</td><td class="px-6 py-4">44</td><td class="px-6 py-4">28 cm</td>
+                    </tr>
+                    <tr class="hover:bg-nike-snow">
+                        <td class="px-6 py-4">11</td><td class="px-6 py-4">45</td><td class="px-6 py-4">29 cm</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <p class="mt-8 text-nike-gray-500 text-sm leading-relaxed italic">
+            * Lưu ý: Đây là bảng kích cỡ tiêu chuẩn của Nike. Nếu chân bạn rộng hoặc mu bàn chân cao, bạn nên cân nhắc tăng 0.5 size.
+        </p>
+    </div>
+</div>
+
 <section class="max-w-[1920px] mx-auto px-6 md:px-12 py-12">
     <div class="flex flex-col lg:flex-row gap-16">
         {{-- Product Image Gallery --}}
@@ -17,49 +65,122 @@
             <div class="sticky top-28">
                 <h1 class="text-3xl font-nike-display uppercase leading-tight mb-2">{{ $product->name }}</h1>
                 <p class="text-nike-gray-500 font-nike-body mb-6">{{ $product->category->name }}</p>
-                <p class="text-xl font-nike-body font-medium mb-12">${{ number_format($product->price, 2) }}</p>
+                <p class="text-xl font-nike-body font-medium mb-12">{{ number_format($product->price, 0, ',', '.') }}₫</p>
 
-                {{-- ADD TO BAG FORM --}}
-                <form action="{{ route('cart.add') }}" method="POST">
-                    @csrf
-                    <input type="hidden" name="quantity" value="1">
-                    
-                    {{-- Sizing --}}
-                    <div class="mb-12">
-                        <div class="flex justify-between items-center mb-4">
-                            <span class="font-nike-body font-medium uppercase text-sm">Select Size</span>
-                            <a href="#" class="text-nike-gray-500 text-sm underline">Size Guide</a>
-                        </div>
-                        <div class="grid grid-cols-3 gap-2">
-                            @foreach($product->variants as $variant)
-                                <label class="relative group cursor-pointer">
-                                    <input type="radio" name="variant_id" value="{{ $variant->id }}" class="peer absolute opacity-0 w-full h-full cursor-pointer" required>
-                                    <div class="border border-nike-gray-200 py-3 rounded-md font-nike-body text-center transition-all peer-checked:border-nike-black peer-checked:bg-nike-black peer-checked:text-white hover:border-nike-black">
-                                        {{ str_replace('US ', '', $variant->size) }}
-                                    </div>
-                                </label>
-                            @endforeach
-                        </div>
-                        @error('variant_id') <p class="text-nike-red text-xs mt-2">Please select a size.</p> @enderror
+                {{-- Sizing Section --}}
+                <div class="mb-12">
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="font-nike-body font-medium uppercase text-sm">Chọn kích cỡ (US)</span>
+                        <button onclick="toggleSizeGuide()" class="text-nike-gray-500 text-sm underline hover:text-nike-black transition-colors">Bảng kích cỡ</button>
                     </div>
-
-                    {{-- Action Buttons --}}
-                    <div class="space-y-3">
-                        <x-pill-button type="submit" class="w-full py-5 text-lg">
-                            Add to Bag
-                        </x-pill-button>
-                        <button type="button" class="w-full py-5 border border-nike-gray-200 rounded-full font-nike-body font-medium flex items-center justify-center hover:border-nike-black">
-                            Favourite
-                            <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
-                        </button>
+                    <div class="grid grid-cols-3 gap-2">
+                        @foreach($product->variants as $variant)
+                            <label class="relative group cursor-pointer">
+                                <input type="radio" name="variant_id" value="{{ $variant->id }}" class="peer absolute opacity-0 w-full h-full cursor-pointer">
+                                <div class="border border-nike-gray-200 py-3 rounded-md font-nike-body text-center transition-all peer-checked:border-nike-black peer-checked:bg-nike-black peer-checked:text-white hover:border-nike-black">
+                                    {{ str_replace('US ', '', $variant->size) }}
+                                </div>
+                            </label>
+                        @endforeach
                     </div>
-                </form>
+                    <p id="size-error" class="text-nike-red text-xs mt-2 hidden text-center italic">Vui lòng chọn size trước khi thêm vào giỏ.</p>
+                </div>
 
-                <div class="mt-12 prose prose-sm font-nike-body text-nike-gray-500 leading-relaxed">
+                {{-- Action Buttons --}}
+                <div class="space-y-3">
+                    <x-pill-button 
+                        onclick="handleAjaxAddToCart()"
+                        id="add-to-cart-btn"
+                        class="w-full py-5 text-lg bg-nike-black text-white hover:bg-nike-gray-800"
+                    >
+                        Thêm Vào Giỏ
+                    </x-pill-button>
+                    <button type="button" class="w-full py-5 border border-nike-gray-200 rounded-full font-nike-body font-medium flex items-center justify-center hover:border-nike-black transition-colors">
+                        Yêu Thích
+                        <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                    </button>
+                </div>
+
+                <div class="mt-12 prose prose-sm font-nike-body text-nike-gray-500 leading-relaxed border-t border-nike-gray-100 pt-8 uppercase text-[12px] tracking-widest font-bold italic">
                     <p>{{ $product->description }}</p>
                 </div>
             </div>
         </div>
     </div>
 </section>
+
+<script>
+    function toggleSizeGuide() {
+        const modal = document.getElementById('size-guide-modal');
+        modal.classList.toggle('hidden');
+        document.body.classList.toggle('overflow-hidden');
+    }
+
+    async function handleAjaxAddToCart() {
+        const selectedVariant = document.querySelector('input[name="variant_id"]:checked');
+        const errorMsg = document.getElementById('size-error');
+        const successModal = document.getElementById('add-success-modal');
+
+        if (!selectedVariant) {
+            errorMsg.classList.remove('hidden');
+            return;
+        }
+        errorMsg.classList.add('hidden');
+
+        const btn = document.getElementById('add-to-cart-btn');
+        btn.disabled = true;
+        
+        try {
+            const response = await fetch("{{ route('cart.add') }}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    variant_id: selectedVariant.value,
+                    quantity: 1
+                })
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                
+                // 1. HIỆN MODAL THÀNH CÔNG
+                if (typeof showSuccessModal === 'function') {
+                    showSuccessModal('Bản phẩm đã có trong túi');
+                }
+                
+                // 2. GIỮ ĐÚNG 1 GIÂY (1000MS)
+                setTimeout(async () => {
+                    // 3. CẬP NHẬT BADGE
+                    if (typeof updateCartBadge === 'function') {
+                        updateCartBadge(data.cart_count);
+                    }
+                    
+                    // 4. FETCH FRAGMENT MỚI
+                    const fragmentResponse = await fetch("{{ route('cart.fragment') }}");
+                    const fragmentHtml = await fragmentResponse.text();
+                    document.getElementById('cart-fragment-container').innerHTML = fragmentHtml;
+                    
+                    if (typeof toggleCart === 'function') {
+                        toggleCart();
+                    }
+                }, 1000);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        } finally {
+            btn.disabled = false;
+        }
+    }
+</script>
+
+<style>
+    @keyframes scale-in {
+        from { opacity: 0; transform: scale(0.95); }
+        to { opacity: 1; transform: scale(1); }
+    }
+</style>
 @endsection

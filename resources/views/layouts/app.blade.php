@@ -1,74 +1,141 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>@yield('title', 'Nike Hybrid')</title>
-        <meta name="csrf-token" content="{{ csrf_token() }}">
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-    </head>
-    <body class="selection:bg-nike-black selection:text-white overflow-x-hidden">
-        {{-- Promotional Banner (Principle 4) --}}
-        <div class="bg-nike-black text-white text-[12px] font-medium py-2 px-4 text-center uppercase tracking-wide">
-            Free Shipping for Members. Join Us.
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@yield('title', 'Nike Hybrid | Bản Sắc Thể Thao')</title>
+    <!-- Montserrat Font -->
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+</head>
+<body class="bg-white text-nike-black antialiased overflow-x-hidden">
+
+    {{-- Global Navigation --}}
+    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-nike-gray-100">
+        {{-- Utility Nav --}}
+        <div class="bg-nike-gray-100 py-1.5 px-6 md:px-12 flex justify-end items-center space-x-6 text-[10px] font-bold uppercase tracking-widest">
+            <a href="{{ route('about') }}" class="hover:text-nike-gray-500 {{ request()->routeIs('about') ? 'text-nike-black underline' : '' }}">Câu chuyện</a>
+            <span class="text-nike-gray-300">|</span>
+            <a href="#" class="hover:text-nike-gray-500">Tìm cửa hàng</a>
+            <span class="text-nike-gray-300">|</span>
+            <a href="#" class="hover:text-nike-gray-500">Hỗ trợ</a>
         </div>
 
-        {{-- Desktop Navigation (60px height) --}}
-        <nav class="sticky top-0 z-50 bg-white border-b border-nike-gray-200">
-            <div class="max-w-[1920px] mx-auto px-6 md:px-12 h-[60px] flex items-center justify-between">
-                {{-- Logo Swoosh --}}
-                <a href="/" class="flex-shrink-0">
-                    <svg class="w-14 h-14 fill-nike-black" viewBox="0 0 24 24"><path d="M21 8.75c0 0-4.5 6-12.5 6s-6.5-2-6.5-2 1.5 4 7.5 4 11.5-8 11.5-8z"/></svg>
-                </a>
+        {{-- Main Nav --}}
+        <nav class="flex justify-between items-center py-4 px-6 md:px-12 relative">
+            {{-- Logo --}}
+            <a href="/" class="z-50 hover:opacity-70 transition-opacity">
+                <svg class="w-16" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M21 8.719L7.836 14.303C6.74 14.768 5.818 15 5.075 15c-.836 0-1.445-.295-1.819-.884-.485-.76-.273-1.982.559-3.272.494-.754 1.122-1.446 1.734-2.108-.144.234-1.415 2.349-.025 3.345.275.2.666.298 1.147.298.386 0 .829-.063 1.316-.19L21 8.719z"></path>
+                </svg>
+            </a>
 
-                {{-- Center Links (Rule 4) --}}
-                <div class="hidden md:flex space-x-6">
-                    <a href="{{ route('catalog.index') }}" class="text-[16px] font-medium text-nike-black hover:text-nike-gray-500 uppercase">All Products</a>
-                    <a href="{{ route('catalog.index', ['category' => 'men']) }}" class="text-[16px] font-medium text-nike-black hover:text-nike-gray-500 uppercase">Men</a>
-                    <a href="{{ route('catalog.index', ['category' => 'women']) }}" class="text-[16px] font-medium text-nike-black hover:text-nike-gray-500 uppercase">Women</a>
-                    <a href="{{ route('catalog.index', ['category' => 'kids']) }}" class="text-[16px] font-medium text-nike-black hover:text-nike-gray-500 uppercase">Kids</a>
-                    <a href="{{ route('catalog.index', ['sort' => 'price_asc']) }}" class="text-[16px] font-medium text-nike-red hover:text-red-700 uppercase">Sale</a>
-                </div>
+            {{-- Center Links: PILL SHAPE NAVIGATION --}}
+            <div class="hidden md:flex items-center space-x-1">
+                @php
+                    $currentCategory = request()->get('category');
+                    $isHome = request()->is('/');
+                    $isSale = request()->routeIs('catalog.sale');
+                    $pillClass = "px-5 py-2 rounded-[30px] text-[13px] font-bold uppercase tracking-tight transition-all whitespace-nowrap";
+                    $activePill = "bg-nike-black text-white shadow-lg";
+                    $inactivePill = "text-nike-black hover:bg-nike-gray-100";
+                @endphp
+                
+                <a href="/" class="{{ $pillClass }} {{ $isHome ? $activePill : $inactivePill }}">Trang chủ</a>
+                <a href="{{ route('catalog.index') }}" class="{{ $pillClass }} {{ (!$isHome && !$currentCategory && !$isSale) ? $activePill : $inactivePill }}">Cửa hàng</a>
+                <a href="{{ route('catalog.index', ['category' => 'men']) }}" class="{{ $pillClass }} {{ $currentCategory == 'men' ? $activePill : $inactivePill }}">Nam</a>
+                <a href="{{ route('catalog.index', ['category' => 'women']) }}" class="{{ $pillClass }} {{ $currentCategory == 'women' ? $activePill : $inactivePill }}">Nữ</a>
+                <a href="{{ route('catalog.sale') }}" class="{{ $pillClass }} {{ $isSale ? 'bg-nike-red text-white' : 'text-nike-red hover:bg-red-50' }}">Sale</a>
+            </div>
 
-                {{-- Right Interaction Cluster --}}
-                <div class="flex items-center space-x-4">
-                    {{-- Search (24px radius, #F5F5F5) --}}
-                    <div class="hidden lg:flex relative group">
-                        <input type="text" placeholder="Search" class="bg-nike-gray-100 rounded-[24px] px-4 py-2 pl-10 border-none focus:ring-1 focus:ring-nike-black w-40 hover:bg-nike-gray-200 transition-all font-medium text-sm">
-                        <svg class="w-5 h-5 absolute left-3 top-2 text-nike-black" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+            {{-- Right Interaction Cluster --}}
+            <div class="flex items-center space-x-6">
+                {{-- Search Box --}}
+                <div class="relative hidden lg:block group">
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-4">
+                        <svg class="w-4 h-4 text-nike-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    </span>
+                    <input id="global-search-input" type="text" placeholder="Tìm kiếm" autocomplete="off"
+                        class="bg-nike-gray-100 border-none rounded-full py-2 pl-11 pr-5 text-sm focus:ring-2 focus:ring-nike-gray-200 w-48 transition-all focus:w-64 font-medium">
+                    <div id="search-suggestions" class="absolute top-12 left-0 right-0 bg-white border border-nike-gray-100 shadow-2xl z-50 hidden">
+                        <div id="suggestions-list" class="divide-y divide-nike-gray-50"></div>
                     </div>
-
-                    {{-- Auth Toggles --}}
-                    @guest
-                        <a href="{{ route('login') }}" class="text-sm font-medium uppercase hover:text-nike-gray-500">Sign In</a>
-                    @else
-                        <a href="{{ route('profile.index') }}" class="hover:text-nike-gray-500 uppercase text-xs font-medium">Account</a>
-                    @endguest
-
-                    <button onclick="toggleCart()" class="relative text-nike-black group">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
-                        <span id="cart-count-badge" class="hidden absolute -top-1 -right-1 bg-nike-red text-white text-[8px] px-1.5 rounded-full font-bold">0</span>
-                    </button>
                 </div>
+
+                {{-- Auth Toggles --}}
+                @guest
+                    <div class="flex items-center space-x-4">
+                        <a href="{{ route('login') }}" class="text-[11px] font-black uppercase tracking-tighter hover:opacity-70">Đăng nhập</a>
+                        <a href="{{ route('register') }}" class="text-[11px] font-black uppercase tracking-tighter hover:opacity-70">Đăng ký</a>
+                    </div>
+                @else
+                    <a href="{{ route('profile.index') }}" class="text-[11px] font-black uppercase hover:text-nike-gray-500 bg-nike-snow px-3 py-1.5 rounded-md border border-nike-gray-100">
+                        {{ strtoupper(explode(' ', auth()->user()->name)[0]) }}
+                    </a>
+                @endguest
+
+                <button onclick="toggleCart()" class="relative text-nike-black">
+                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                    <span id="cart-count-badge" class="absolute -top-1 -right-1 bg-nike-red text-white text-[9px] w-4 h-4 flex items-center justify-center rounded-full font-black hidden">0</span>
+                </button>
             </div>
         </nav>
-
-        <main>
-            @yield('content')
-        </main>
-
-        <x-cart-drawer />
-
-        <footer class="bg-nike-black text-white py-12 px-6 md:px-12 mt-24">
-            <div class="max-w-[1920px] mx-auto text-xs text-nike-gray-500 flex justify-between items-center border-t border-nike-gray-800 pt-8">
-                <p>&copy; 2026 Nike Hybrid, Inc. All Rights Reserved</p>
-                <div class="flex space-x-6">
-                    <a href="#" class="hover:text-white uppercase">Guides</a>
-                    <a href="#" class="hover:text-white uppercase">Terms of Sale</a>
-                    <a href="#" class="hover:text-white uppercase">Terms of Use</a>
-                    <a href="#" class="hover:text-white uppercase">Privacy Policy</a>
-                </div>
+        
+        {{-- Flash Messages --}}
+        @if(session('success'))
+            <div class="bg-black text-white text-center py-3 text-[11px] font-bold uppercase tracking-[0.2em] animate-pulse">
+                {{ session('success') }}
             </div>
-        </footer>
-    </body>
+        @endif
+    </header>
+
+    <main class="min-h-screen">
+        @yield('content')
+    </main>
+
+    <div id="generic-success-modal" class="fixed inset-0 z-[9999] flex items-center justify-center hidden">
+        <div class="absolute inset-0 bg-black/40 backdrop-blur-md"></div>
+        <div class="relative bg-white p-12 flex flex-col items-center animate-[scale-in_0.3s_ease-out]">
+            <svg class="w-20 h-20 text-green-500 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+            <p id="success-modal-text" class="font-bold uppercase text-lg tracking-widest text-nike-black">Thành công</p>
+        </div>
+    </div>
+
+    <x-cart-drawer />
+
+    <script>
+        function toggleCart() {
+            const drawer = document.getElementById('cart-drawer');
+            const overlay = document.getElementById('cart-drawer-overlay');
+            if (drawer.classList.contains('translate-x-full')) {
+                drawer.classList.remove('translate-x-full');
+                overlay.classList.remove('hidden');
+                setTimeout(() => overlay.classList.add('opacity-100'), 10);
+            } else {
+                drawer.classList.add('translate-x-full');
+                overlay.classList.remove('opacity-100');
+                setTimeout(() => overlay.classList.add('hidden'), 300);
+            }
+        }
+
+        function showSuccessModal(text) {
+            const modal = document.getElementById('generic-success-modal');
+            const label = document.getElementById('success-modal-text');
+            label.innerText = text;
+            modal.classList.remove('hidden');
+            setTimeout(() => modal.classList.add('hidden'), 1000);
+        }
+
+        function updateCartBadge(count) {
+            const badge = document.getElementById('cart-count-badge');
+            if (badge) {
+                if (count > 0) {
+                    badge.innerText = count;
+                    badge.classList.remove('hidden');
+                } else {
+                    badge.classList.add('hidden');
+                }
+            }
+        }
+    </script>
+</body>
 </html>

@@ -19,17 +19,24 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $credentials = $request->validate([
-            'email' => ['required', 'email'],
+        $request->validate([
+            'email' => ['required', 'string'],
             'password' => ['required'],
         ]);
+
+        $loginField = filter_var($request->email, FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
+        
+        $credentials = [
+            $loginField => $request->email,
+            'password' => $request->password
+        ];
 
         if ($this->authService->login($credentials, $request->boolean('remember'))) {
             return redirect()->intended(route('catalog.index'));
         }
 
         return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
+            'email' => 'Thông tin đăng nhập không chính xác.',
         ])->onlyInput('email');
     }
 
@@ -48,7 +55,7 @@ class AuthController extends Controller
 
         $this->authService->register($data);
 
-        return redirect()->route('catalog.index');
+        return redirect()->route('login')->with('success', 'Đăng ký thành viên thành công! Vui lòng đăng nhập.');
     }
 
     public function logout()

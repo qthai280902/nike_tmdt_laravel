@@ -37,6 +37,48 @@ class CartController extends Controller
 
         session()->put('cart', $cart);
 
+        if ($request->expectsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Product added to bag!',
+                'cart_count' => count($cart)
+            ]);
+        }
+
         return redirect()->back()->with('success', 'Product added to bag!');
+    }
+
+    /**
+     * Remove an item from the cart.
+     */
+    public function remove(Request $request)
+    {
+        $request->validate([
+            'variant_id' => 'required'
+        ]);
+
+        $cart = session()->get('cart', []);
+        
+        if (isset($cart[$request->variant_id])) {
+            unset($cart[$request->variant_id]);
+            session()->put('cart', $cart);
+        }
+
+        if ($request->expectsJson()) {
+            return response()->json([
+                'success' => true,
+                'cart_count' => count($cart)
+            ]);
+        }
+
+        return redirect()->back();
+    }
+
+    /**
+     * Return the cart items HTML fragment for dynamic update.
+     */
+    public function fragment()
+    {
+        return view('components.cart-items-fragment');
     }
 }

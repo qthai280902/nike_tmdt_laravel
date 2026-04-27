@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Nike Hybrid | Feel the Future')
+@section('title', 'Nike Hybrid | Bản Sắc Thể Thao')
 
 @section('content')
     {{-- Hero Section (Full-bleed, Dynamic Content) --}}
@@ -13,13 +13,15 @@
 
         <div class="relative z-10 px-6 md:px-12 max-w-[1920px] mx-auto w-full">
             <div class="max-w-3xl">
-                <p class="font-medium text-white mb-4 uppercase tracking-widest animate-[fade-in-up_0.6s_forwards]">{{ $heroProduct->category->name ?? 'New Arrival' }}</p>
-                <h1 class="text-nike-hero text-white mb-8 animate-[fade-in-up_0.8s_forwards_0.2s]">{{ $heroProduct->name }}</h1>
-                <p class="text-white/80 font-nike-body text-xl mb-10 max-w-xl animate-[fade-in-up_1s_forwards_0.3s]">
+                <p class="font-bold text-white mb-4 uppercase tracking-[0.2em] animate-[fade-in-up_0.6s_forwards] italic text-sm">{{ $heroProduct->category->name ?? 'Hàng Mới Về' }}</p>
+                <h1 class="text-nike-hero text-white mb-8 animate-[fade-in-up_0.8s_forwards_0.2s] tracking-tighter">{{ $heroProduct->name }}</h1>
+                <p class="text-white/80 font-nike-body text-xl mb-10 max-w-xl animate-[fade-in-up_1s_forwards_0.3s] leading-relaxed">
                     {{ Str::limit($heroProduct->description, 120) }}
                 </p>
                 <div class="flex space-x-3 animate-[fade-in-up_1.2s_forwards_0.4s]">
-                    <x-pill-button href="{{ route('catalog.show', $heroProduct->slug) }}" class="py-4 px-10 bg-white text-nike-black hover:bg-nike-gray-200">Shop Now</x-pill-button>
+                    <a href="{{ route('catalog.show', $heroProduct->slug) }}" class="bg-white text-black px-12 py-5 rounded-[40px] font-bold uppercase transition-transform hover:scale-105 inline-block text-base tracking-tight">
+                        Mua Ngay
+                    </a>
                 </div>
             </div>
         </div>
@@ -29,8 +31,8 @@
     {{-- Secondary Section: Featured Products (Dynamic Gaps) --}}
     <section class="py-24 px-6 md:px-12 max-w-[1920px] mx-auto">
         <div class="flex justify-between items-end mb-12">
-            <h2 class="text-nike-section">The Latest & Greatest</h2>
-            <x-pill-button href="{{ route('catalog.index') }}" class="bg-transparent text-nike-black border border-nike-gray-300 hover:bg-nike-gray-100">Shop All</x-pill-button>
+            <h2 class="text-nike-section">Mới Nhất & Đẳng Cấp Nhất</h2>
+            <a href="{{ route('catalog.index') }}" class="text-nike-black font-bold uppercase underline tracking-widest text-xs hover:text-nike-gray-500 transition-colors">Xem Tất Cả</a>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
@@ -42,10 +44,10 @@
                         </div>
                         <div class="flex justify-between items-start">
                             <div class="space-y-1">
-                                <h3 class="font-medium text-nike-black uppercase text-sm group-hover:text-nike-gray-500 transition-colors">{{ $product->name }}</h3>
-                                <p class="text-nike-gray-500 text-sm italic">{{ $product->category->name }}</p>
+                                <h3 class="font-bold text-nike-black uppercase text-sm group-hover:text-nike-gray-500 transition-colors italic">{{ $product->name }}</h3>
+                                <p class="text-nike-gray-500 text-sm font-medium">{{ $product->category->name }}</p>
                             </div>
-                            <span class="text-sm font-medium">${{ number_format($product->price, 0) }}</span>
+                            <span class="text-sm font-bold">{{ number_format($product->price, 0, ',', '.') }}₫</span>
                         </div>
                     </a>
                 </div>

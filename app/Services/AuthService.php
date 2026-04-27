@@ -14,16 +14,20 @@ class AuthService
      */
     public function register(array $data): User
     {
+        $displayId = '#' . str_pad(random_int(100000, 999999), 6, '0', STR_PAD_LEFT);
+        
+        // Ensure unique display_id
+        while (User::where('display_id', $displayId)->exists()) {
+            $displayId = '#' . str_pad(random_int(100000, 999999), 6, '0', STR_PAD_LEFT);
+        }
+
         $user = User::create([
+            'display_id' => $displayId,
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'role' => $data['role'] ?? 'customer',
         ]);
-
-        $this->syncCart();
-
-        Auth::login($user);
 
         return $user;
     }

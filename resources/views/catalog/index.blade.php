@@ -1,77 +1,92 @@
 @extends('layouts.app')
 
-@section('title', 'Nike Catalog | All Products')
+@section('title', (request()->routeIs('catalog.sale') ? 'Giảm Giá' : 'Sản Phẩm') . ' | Nike Hybrid')
 
 @section('content')
-<div class="max-w-[1920px] mx-auto px-6 md:px-12 py-12">
-    <div class="flex flex-col md:flex-row gap-12">
-        {{-- Sidebar Filters --}}
-        <aside class="w-full md:w-64 flex-shrink-0">
-            <h1 class="text-2xl font-nike-display uppercase mb-8">All Shoes ({{ $products->total() }})</h1>
-            <div class="space-y-8">
-                <div>
-                    <h3 class="font-nike-body font-medium mb-4 uppercase text-sm tracking-wider">Sort By</h3>
-                    <select onchange="window.location.href='?sort='+this.value" class="w-full bg-nike-gray-100 rounded-lg p-2 border-none">
-                        <option value="latest" {{ request('sort') == 'latest' ? 'selected' : '' }}>Newest</option>
-                        <option value="price_asc" {{ request('sort') == 'price_asc' ? 'selected' : '' }}>Price: Low-High</option>
-                        <option value="price_desc" {{ request('sort') == 'price_desc' ? 'selected' : '' }}>Price: High-Low</option>
-                    </select>
-                </div>
+<section class="max-w-[1920px] mx-auto px-6 md:px-12 py-12">
+    {{-- Header --}}
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-6">
+        <div>
+            <h1 class="text-4xl font-nike-display uppercase tracking-tighter italic">
+                @if(request()->routeIs('catalog.sale'))
+                    Sale Cathedral.
+                @elseif(request()->get('category'))
+                    {{ ucfirst(request()->get('category')) }}.
+                @else
+                    Mọi Sản Phẩm.
+                @endif
+            </h1>
+            <p class="text-nike-gray-500 font-medium text-sm mt-1">Khám phá phong cách và hiệu suất đỉnh cao.</p>
+        </div>
 
-                <div>
-                    <h3 class="font-nike-body font-medium mb-4 uppercase text-sm tracking-wider">Category</h3>
-                    <div class="space-y-2">
-                        <a href="{{ route('catalog.index') }}" class="block text-sm font-nike-body hover:text-nike-gray-500 {{ !request('category') ? 'font-bold underline' : '' }}">All</a>
-                        @foreach($categories as $category)
-                            <a href="?category={{ $category->slug }}" class="block text-sm font-nike-body hover:text-nike-gray-500 {{ request('category') == $category->slug ? 'font-bold underline' : '' }}">
-                                {{ $category->name }}
-                            </a>
-                        @endforeach
-                    </div>
-                </div>
+        {{-- Filter/Sort Bar --}}
+        <div class="flex items-center space-x-4 w-full md:w-auto">
+            <button class="flex items-center space-x-2 px-4 py-2 border border-nike-gray-200 rounded-full hover:border-nike-black transition-colors">
+                <span class="text-xs font-bold uppercase tracking-widest italic">Lọc</span>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4.5h18m-18 5h18m-18 5h18m-18 5h18"></path></svg>
+            </button>
+            <div class="relative">
+                <select onchange="window.location.href=this.value" class="appearance-none bg-white border border-nike-gray-200 px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest italic pr-10 focus:ring-0 focus:border-nike-black cursor-pointer">
+                    <option value="{{ request()->fullUrlWithQuery(['sort' => 'latest']) }}" {{ request('sort') == 'latest' ? 'selected' : '' }}>Mới nhất</option>
+                    <option value="{{ request()->fullUrlWithQuery(['sort' => 'price_asc']) }}" {{ request('sort') == 'price_asc' ? 'selected' : '' }}>Giá: Thấp-Cao</option>
+                    <option value="{{ request()->fullUrlWithQuery(['sort' => 'price_desc']) }}" {{ request('sort') == 'price_desc' ? 'selected' : '' }}>Giá: Cao-Thấp</option>
+                </select>
+            </div>
+        </div>
+    </div>
 
-                <div>
-                    <h3 class="font-nike-body font-medium mb-4 uppercase text-sm tracking-wider">Size</h3>
-                    <div class="grid grid-cols-3 gap-2">
-                        @foreach(['US 7', 'US 8', 'US 9', 'US 10', 'US 11', 'US 12'] as $size)
-                            <a href="?size={{ urlencode($size) }}" class="border border-nike-gray-200 py-2 text-center rounded-md hover:border-nike-black transition-colors {{ request('size') == $size ? 'bg-nike-black text-white' : '' }}">
-                                {{ str_replace('US ', '', $size) }}
-                            </a>
-                        @endforeach
-                    </div>
-                </div>
+    <div class="flex gap-12">
+        {{-- Sidebar Filters (Standard Nike Layout) --}}
+        <aside class="hidden lg:block w-64 flex-shrink-0 space-y-10">
+            <div>
+                <h3 class="text-[13px] font-black uppercase mb-6 tracking-tighter italic">Danh mục</h3>
+                <ul class="space-y-3">
+                    @foreach($categories as $cat)
+                        <li><a href="{{ route('catalog.index', ['category' => $cat->slug]) }}" class="text-sm font-medium hover:text-nike-gray-500 {{ request('category') == $cat->slug ? 'font-bold underline' : '' }}">{{ $cat->name }}</a></li>
+                    @endforeach
+                    <li><a href="{{ route('catalog.sale') }}" class="text-sm font-bold text-nike-red hover:text-red-700 italic {{ request()->routeIs('catalog.sale') ? 'underline' : '' }}">Đang Giảm Giá</a></li>
+                </ul>
             </div>
         </aside>
 
         {{-- Product Grid --}}
         <div class="flex-grow">
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                @foreach($products as $product)
-                    <a href="{{ route('catalog.show', $product->slug) }}" class="group block">
-                        <div class="aspect-square bg-nike-gray-100 overflow-hidden mb-4 relative no-border-radius">
-                            {{-- REAL IMAGE --}}
-                            <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                            
-                            @if($product->price > 150)
-                                <div class="absolute top-4 left-4 bg-white px-3 py-1 text-xs font-nike-body font-medium uppercase">Podium Selection</div>
-                            @endif
-                        </div>
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <h3 class="font-nike-body font-medium text-nike-black group-hover:text-nike-gray-500 transition-colors uppercase leading-tight">{{ $product->name }}</h3>
-                                <p class="text-nike-gray-500 text-sm italic">{{ $product->category->name }}</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-y-12 gap-x-4">
+                @forelse($products as $product)
+                    <div class="group">
+                        <a href="{{ route('catalog.show', $product->slug) }}">
+                            <div class="aspect-square bg-nike-gray-100 overflow-hidden mb-4 no-border-radius shadow-sm">
+                                <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
                             </div>
-                            <p class="font-nike-body font-medium text-nike-black">${{ number_format($product->price, 2) }}</p>
-                        </div>
-                    </a>
-                @endforeach
+                            <div class="space-y-1">
+                               @if($product->original_price && $product->price < $product->original_price)
+                                    <span class="text-nike-red text-[11px] font-black uppercase tracking-tighter">Đang Giảm Giá</span>
+                               @endif
+                                <h3 class="font-bold text-nike-black uppercase text-[13px] tracking-tight group-hover:text-nike-gray-500 transition-colors italic leading-none">{{ $product->name }}</h3>
+                                <p class="text-nike-gray-500 text-[12px] font-medium leading-none">{{ $product->category->name }}</p>
+                                
+                                <div class="pt-2 flex items-center space-x-2">
+                                    <span class="font-bold text-sm tracking-tight">{{ number_format($product->price, 0, ',', '.') }}₫</span>
+                                    @if($product->original_price && $product->price < $product->original_price)
+                                        <span class="text-nike-gray-400 text-xs line-through">{{ number_format($product->original_price, 0, ',', '.') }}₫</span>
+                                    @endif
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                @empty
+                    <div class="col-span-full py-32 text-center">
+                        <p class="text-nike-gray-400 font-bold uppercase tracking-widest text-[11px]">Không tìm thấy sản phẩm nào.</p>
+                        <a href="{{ route('catalog.index') }}" class="mt-4 inline-block text-nike-black font-black uppercase underline text-xs">Quay lại tất cả</a>
+                    </div>
+                @endforelse
             </div>
 
             {{-- Pagination --}}
-            <div class="mt-24">
+            <div class="mt-20">
                 {{ $products->links() }}
             </div>
         </div>
     </div>
-</div>
+</section>
 @endsection

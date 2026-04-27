@@ -22,6 +22,12 @@ class ProductService
             });
         }
 
+        // Filter by Sale (Discounted Products)
+        if (! empty($filters['on_sale'])) {
+            $query->whereNotNull('original_price')
+                ->whereColumn('price', '<', 'original_price');
+        }
+
         // Filter by Size
         if (! empty($filters['size'])) {
             $query->whereHas('variants', function (Builder $q) use ($filters) {

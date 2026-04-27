@@ -15,24 +15,24 @@ class LiveProductSeeder extends Seeder
     {
         $productsData = [
             // NIKE CDN LINKS (With New Header Logic)
-            ['name' => 'Nike Air Force 1 \'07', 'category' => 'Men', 'price' => 110, 'image' => 'https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,q_auto:eco/b7d9211c-26e7-431a-ac24-b0540fb3c00f/AIR+FORCE+1+%2707.png'],
-            ['name' => 'Nike Air Max 270', 'category' => 'Men', 'price' => 160, 'image' => 'https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,q_auto:eco/9d58ca09-3252-4e00-8b17-38435d8a8b84/AIR+MAX+270.png'],
-            ['name' => 'Nike Dunk Low Retro', 'category' => 'Men', 'price' => 115, 'image' => 'https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,q_auto:eco/8e97f699-245c-4433-875f-3ee0a1f49615/NIKE+DUNK+LOW+RETRO.png'],
+            ['name' => 'Nike Air Force 1 \'07', 'category' => 'Men', 'price' => 2800000, 'original_price' => 3500000, 'image' => 'https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,q_auto:eco/b7d9211c-26e7-431a-ac24-b0540fb3c00f/AIR+FORCE+1+%2707.png'],
+            ['name' => 'Nike Air Max 270', 'category' => 'Men', 'price' => 3200000, 'original_price' => 4200000, 'image' => 'https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,q_auto:eco/9d58ca09-3252-4e00-8b17-38435d8a8b84/AIR+MAX+270.png'],
+            ['name' => 'Nike Dunk Low Retro', 'category' => 'Men', 'price' => 2500000, 'original_price' => 2900000, 'image' => 'https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,q_auto:eco/8e97f699-245c-4433-875f-3ee0a1f49615/NIKE+DUNK+LOW+RETRO.png'],
             
             // UNSPLASH BACKUP LINKS (RELIABLE)
-            ['name' => 'Nike Zoom Structure', 'category' => 'Men', 'price' => 125, 'image' => 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&q=80&w=1280'],
-            ['name' => 'Nike Air Jordan 1 High', 'category' => 'Men', 'price' => 180, 'image' => 'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&q=80&w=1280'],
-            ['name' => 'Nike Precision Hero', 'category' => 'Men', 'price' => 95, 'image' => 'https://images.unsplash.com/photo-1460353581641-37baddab0fa2?auto=format&fit=crop&q=80&w=1280'],
-            ['name' => 'Nike Pegasus Turbo', 'category' => 'Men', 'price' => 150, 'image' => 'https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&q=80&w=1280'],
-            ['name' => 'Nike Free Run 5.0', 'category' => 'Women', 'price' => 100, 'image' => 'https://images.unsplash.com/photo-1512374382149-4332c6c021f1?auto=format&fit=crop&q=80&w=1280'],
-            ['name' => 'Nike Metcon Training', 'category' => 'Women', 'price' => 130, 'image' => 'https://images.unsplash.com/photo-1579338559194-a162d19bf842?auto=format&fit=crop&q=80&w=1280'],
-            ['name' => 'Nike React Infinity', 'category' => 'Women', 'price' => 160, 'image' => 'https://images.unsplash.com/photo-1539185441755-769473a23570?auto=format&fit=crop&q=80&w=1280'],
-            ['name' => 'Nike Internationalist', 'category' => 'Women', 'price' => 90, 'image' => 'https://images.unsplash.com/photo-1515955656352-a1fa3ffcd111?auto=format&fit=crop&q=80&w=1280'],
-            ['name' => 'Nike Court Legacy', 'category' => 'Women', 'price' => 70, 'image' => 'https://images.unsplash.com/photo-1511556532299-8f662fc26c06?auto=format&fit=crop&q=80&w=1280'],
-            ['name' => 'Nike Pegasus Shield', 'category' => 'Women', 'price' => 140, 'image' => 'https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?auto=format&fit=crop&q=80&w=1280'],
-            ['name' => 'Nike Kids Star Runner', 'category' => 'Kids', 'price' => 45, 'image' => 'https://images.unsplash.com/photo-1514989940723-e8e51635b782?auto=format&fit=crop&q=80&w=1280'],
-            ['name' => 'Nike Kids Flex Plus', 'category' => 'Kids', 'price' => 55, 'image' => 'https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2?auto=format&fit=crop&q=80&w=1280'],
-            ['name' => 'Nike Kids Pico 5', 'category' => 'Kids', 'price' => 35, 'image' => 'https://images.unsplash.com/photo-1597248881519-db089d3744a5?auto=format&fit=crop&q=80&w=1280'],
+            ['name' => 'Nike Zoom Structure', 'category' => 'Men', 'price' => 2100000, 'original_price' => 2600000, 'image' => 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&q=80&w=1280'],
+            ['name' => 'Nike Air Jordan 1 High', 'category' => 'Men', 'price' => 4500000, 'original_price' => null, 'image' => 'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&q=80&w=1280'],
+            ['name' => 'Nike Precision Hero', 'category' => 'Men', 'price' => 1800000, 'original_price' => null, 'image' => 'https://images.unsplash.com/photo-1460353581641-37baddab0fa2?auto=format&fit=crop&q=80&w=1280'],
+            ['name' => 'Nike Pegasus Turbo', 'category' => 'Men', 'price' => 2900000, 'original_price' => 3800000, 'image' => 'https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&q=80&w=1280'],
+            ['name' => 'Nike Free Run 5.0', 'category' => 'Women', 'price' => 2000000, 'original_price' => 2400000, 'image' => 'https://images.unsplash.com/photo-1512374382149-4332c6c021f1?auto=format&fit=crop&q=80&w=1280'],
+            ['name' => 'Nike Metcon Training', 'category' => 'Women', 'price' => 2600000, 'original_price' => null, 'image' => 'https://images.unsplash.com/photo-1579338559194-a162d19bf842?auto=format&fit=crop&q=80&w=1280'],
+            ['name' => 'Nike React Infinity', 'category' => 'Women', 'price' => 3100000, 'original_price' => 3600000, 'image' => 'https://images.unsplash.com/photo-1539185441755-769473a23570?auto=format&fit=crop&q=80&w=1280'],
+            ['name' => 'Nike Internationalist', 'category' => 'Women', 'price' => 1800000, 'original_price' => 2100000, 'image' => 'https://images.unsplash.com/photo-1515955656352-a1fa3ffcd111?auto=format&fit=crop&q=80&w=1280'],
+            ['name' => 'Nike Court Legacy', 'category' => 'Women', 'price' => 1300000, 'original_price' => null, 'image' => 'https://images.unsplash.com/photo-1511556532299-8f662fc26c06?auto=format&fit=crop&q=80&w=1280'],
+            ['name' => 'Nike Pegasus Shield', 'category' => 'Women', 'price' => 2700000, 'original_price' => 3300000, 'image' => 'https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?auto=format&fit=crop&q=80&w=1280'],
+            ['name' => 'Nike Kids Star Runner', 'category' => 'Kids', 'price' => 950000, 'original_price' => 1200000, 'image' => 'https://images.unsplash.com/photo-1514989940723-e8e51635b782?auto=format&fit=crop&q=80&w=1280'],
+            ['name' => 'Nike Kids Flex Plus', 'category' => 'Kids', 'price' => 1100000, 'original_price' => null, 'image' => 'https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2?auto=format&fit=crop&q=80&w=1280'],
+            ['name' => 'Nike Kids Pico 5', 'category' => 'Kids', 'price' => 750000, 'original_price' => 950000, 'image' => 'https://images.unsplash.com/photo-1597248881519-db089d3744a5?auto=format&fit=crop&q=80&w=1280'],
         ];
 
         foreach ($productsData as $data) {
@@ -76,6 +76,7 @@ class LiveProductSeeder extends Seeder
                 'slug' => Str::slug($data['name']) . '-' . rand(100, 999),
                 'description' => $data['description'] ?? 'Experience the pinnacle of performance and style with ' . $data['name'],
                 'price' => $data['price'],
+                'original_price' => $data['original_price'] ?? null,
                 'image_url' => $url,
                 'featured_position' => $featuredPosition,
             ]);
