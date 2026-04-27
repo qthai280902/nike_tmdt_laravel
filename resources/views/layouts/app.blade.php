@@ -23,11 +23,11 @@
 
                 {{-- Center Links (Rule 4) --}}
                 <div class="hidden md:flex space-x-6">
-                    <a href="{{ route('catalog.index') }}" class="text-[16px] font-medium text-nike-black hover:text-nike-gray-500 uppercase">New & Featured</a>
-                    <a href="{{ route('catalog.index') }}" class="text-[16px] font-medium text-nike-black hover:text-nike-gray-500 uppercase">Men</a>
-                    <a href="{{ route('catalog.index') }}" class="text-[16px] font-medium text-nike-black hover:text-nike-gray-500 uppercase">Women</a>
-                    <a href="{{ route('catalog.index') }}" class="text-[16px] font-medium text-nike-black hover:text-nike-gray-500 uppercase">Kids</a>
-                    <a href="{{ route('catalog.index') }}" class="text-[16px] font-medium text-nike-red hover:text-red-700 uppercase">Sale</a>
+                    <a href="{{ route('catalog.index') }}" class="text-[16px] font-medium text-nike-black hover:text-nike-gray-500 uppercase">All Products</a>
+                    <a href="{{ route('catalog.index', ['category' => 'men']) }}" class="text-[16px] font-medium text-nike-black hover:text-nike-gray-500 uppercase">Men</a>
+                    <a href="{{ route('catalog.index', ['category' => 'women']) }}" class="text-[16px] font-medium text-nike-black hover:text-nike-gray-500 uppercase">Women</a>
+                    <a href="{{ route('catalog.index', ['category' => 'kids']) }}" class="text-[16px] font-medium text-nike-black hover:text-nike-gray-500 uppercase">Kids</a>
+                    <a href="{{ route('catalog.index', ['sort' => 'price_asc']) }}" class="text-[16px] font-medium text-nike-red hover:text-red-700 uppercase">Sale</a>
                 </div>
 
                 {{-- Right Interaction Cluster --}}
@@ -42,7 +42,7 @@
                     @guest
                         <a href="{{ route('login') }}" class="text-sm font-medium uppercase hover:text-nike-gray-500">Sign In</a>
                     @else
-                        <button class="hover:text-nike-gray-500 uppercase text-xs font-medium">Account</button>
+                        <a href="{{ route('profile.index') }}" class="hover:text-nike-gray-500 uppercase text-xs font-medium">Account</a>
                     @endguest
 
                     <button onclick="toggleCart()" class="relative text-nike-black group">

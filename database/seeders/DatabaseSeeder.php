@@ -28,11 +28,17 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('123456'),
             'role' => 'admin',
         ]);
+        User::factory()->create([
+            'name' => 'ADThai',
+            'email' => 'thai@gmail.com ',
+            'password' => Hash::make('123456'),
+            'role' => 'admin',
+        ]);
 
         // Gọi các seeder khác
         $this->call([
             CategorySeeder::class,
-            ProductSeeder::class,
+            LiveProductSeeder::class,
         ]);
     }
 }

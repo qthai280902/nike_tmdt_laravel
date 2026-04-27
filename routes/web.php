@@ -1,12 +1,15 @@
 <?php
 
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\Admin\StorefrontController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [HomeController::class, 'index']);
 
 // B2C Catalog Routes
 Route::prefix('catalog')->group(function () {
@@ -15,13 +18,25 @@ Route::prefix('catalog')->group(function () {
     Route::get('/products/{slug}', [ProductController::class, 'show'])->name('catalog.show');
 });
 
-Route::get('/checkout', [ProductController::class, 'index'])->name('checkout.index'); // Placeholder for view
+Route::get('/checkout', [ProductController::class, 'index'])->name('checkout.index');
+Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
 
-// Auth Routes
-Route::controller(\App\Http\Controllers\AuthController::class)->group(function () {
+// Auth Group
+Route::controller(AuthController::class)->group(function () {
     Route::get('/login', 'showLogin')->name('login');
     Route::post('/login', 'login');
     Route::get('/register', 'showRegister')->name('register');
     Route::post('/register', 'register');
-    Route::post('/logout', 'logout')->name('logout');
+});
+
+// Profile & Authenticated Routes
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+    // Admin Routes (Quick Prototype)
+    Route::prefix('admin')->name('admin.')->group(function () {
+        Route::get('/storefront', [StorefrontController::class, 'index'])->name('storefront.index');
+        Route::patch('/storefront/{product}', [StorefrontController::class, 'update'])->name('storefront.update');
+    });
 });

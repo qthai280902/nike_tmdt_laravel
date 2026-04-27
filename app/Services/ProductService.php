@@ -15,9 +15,11 @@ class ProductService
     {
         $query = Product::with(['category', 'variants']);
 
-        // Filter by Category
-        if (! empty($filters['category_id'])) {
-            $query->where('category_id', $filters['category_id']);
+        // Filter by Category Slug
+        if (! empty($filters['category'])) {
+            $query->whereHas('category', function (Builder $q) use ($filters) {
+                $q->where('slug', $filters['category']);
+            });
         }
 
         // Filter by Size

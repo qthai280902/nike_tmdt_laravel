@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Http\Resources\ProductResource;
 use App\Services\ProductService;
 use Illuminate\Http\JsonResponse;
@@ -25,7 +26,9 @@ class ProductController extends Controller
             return response()->json(ProductResource::collection($products)->response()->getData(true));
         }
 
-        return view('catalog.index', compact('products'));
+        $categories = Category::all();
+
+        return view('catalog.index', compact('products', 'categories'));
     }
 
     /**
