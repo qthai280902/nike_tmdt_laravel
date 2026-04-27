@@ -1,59 +1,88 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Nike Hybrid: Retail Storefront & Marketplace
 
 <p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+  <img src="https://upload.wikimedia.org/wikipedia/commons/a/a6/Logo_NIKE.svg" width="200" alt="Nike Logo">
 </p>
 
-## About Laravel
+<p align="center">
+  <em>Nơi sự chính xác của B2C gặp gỡ di sản của C2C.</em>
+</p>
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 🚀 Giới thiệu (Overview)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+**Nike Hybrid** là một nền tảng thương mại điện tử hiện đại, kết hợp mô hình B2C (Bán lẻ chính hãng) truyền thống sự linh hoạt của mô hình C2C (Marketplace dành cho cộng đồng Sneakerhead). 
 
-## Learning Laravel
+Dự án tuân thủ nghiêm ngặt **Nền tảng Thiết kế Cốt lõi (Podium CDS)** của Nike: tối giản, sử dụng bảng màu đơn sắc (Monochromatic) đen trắng, kích thước chữ lớn (Typography 96px) và nhấn mạnh vào hình ảnh sản phẩm.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## ✨ Tính năng nổi bật (Key Features)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 1. Trải nghiệm Bán lẻ Cao cấp (Premium B2C Experience)
+- **Sale Cathedral (Thánh đường Giảm giá):** Cơ chế định giá thông minh tự động nổi bật các sản phẩm có `original_price` và `price`, hiển thị nhãn giảm giá Đỏ chuẩn Nike.
+- **AJAX Cart Engine:** Hệ thống quản lý giỏ hàng Zero-Reload. Thêm, xóa sản phẩm và đồng bộ số lượng (`Badge Count`) tức thì bằng cách sử dụng công nghệ HTML Fragment Injection.
+- **Real-time Search:** Thanh tìm kiếm tích hợp tính năng Debounce, hiển thị hình ảnh và thông tin Gợi ý (Suggestions) ngay khi người dùng gõ từ khóa.
 
-## Laravel Sponsors
+### 2. Hệ sinh thái Thành viên (Membership System)
+- **Đăng nhập linh hoạt:** Đăng nhập thông qua cả hai hình thức: `Email` hoặc `Họ và Tên`.
+- **Định danh hiển thị (Display_ID):** Hệ thống cấp phát mã số duy nhất 6 chữ số (Ví dụ: `#829301`) cho từng User, kích thích tính độc bản cộng đồng.
+- **Quản lý Profile:** Trang tiểu sử thông tin được tối ưu hóa hiển thị chuẩn xác và đẳng cấp.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 3. Giao diện Đỉnh cao (Podium UI)
+- **Pill-Shape Navigation:** Menu điều hướng theo thiết kế lưới thông minh với khung hình viên thuốc (pill).
+- **Montserrat Typography:** Hệ thống phông chữ 100% được đồng hóa sang Montserrat (Weights 400-800).
+- **Trang Câu chuyện (Narrative - About Us):** Phong cách dàn trang chữ khổng lồ, truyền tải sứ mệnh mang độ tin cậy đến người tiêu dùng.
 
-### Premium Partners
+## 🛠️ Công nghệ sử dụng (Technology Stack)
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+- **Backend:** Laravel 12 (PHP 8.2)
+- **Frontend:** Tailwind CSS v4, Blade Templates, Vanilla JS (Fetch API)
+- **Database:** MySQL
+- **Tooling:** Vite, Laravel Pint, PHPUnit
 
-## Contributing
+## ⚙️ Hướng dẫn Cài đặt (Installation & Setup)
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+1. **Clone repository:**
+   ```bash
+   git clone <repository_url>
+   cd nike_tmdt_laravel
+   ```
 
-## Code of Conduct
+2. **Cài đặt các gói phụ thuộc (Dependencies):**
+   ```bash
+   composer install
+   npm install
+   ```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+3. **Thiết lập Environment:**
+   Sao chép `.env.example` thành `.env` và cấu hình Database:
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
 
-## Security Vulnerabilities
+4. **Biên dịch Frontend (Vite):**
+   ```bash
+   npm run build
+   # Hoặc chạy môi trường dev: npm run dev
+   ```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+5. **Khởi tạo và làm đầy (Seed) Database:**
+   ```bash
+   php artisan migrate:fresh --seed
+   ```
 
-## License
+6. **Khởi chạy ứng dụng:**
+   ```bash
+   php artisan serve
+   ```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## 📈 Lộ trình phát triển (Roadmap)
+
+- **Milestone 1:** Hoàn thiện hạ tầng B2C, UI/UX, Đăng nhập và Giỏ hàng nội tại (Đã hoàn thành).
+- **Milestone 2:** Xây dựng C2C Marketplace, Cổng thông tin cho Nhà bán hàng (Sellers), Hệ thống đăng bán sản phẩm cá nhân.
+- **Milestone 3:** Tích hợp Cổng thanh toán, Hệ thống Đặt hàng và Vận chuyển. 
+
+## ⚖️ Giấy phép
+
+Dự án này là mã nguồn mở có sẵn dưới [MIT license](https://opensource.org/licenses/MIT).
