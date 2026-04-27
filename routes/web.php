@@ -15,6 +15,13 @@ Route::prefix('catalog')->group(function () {
     Route::get('/products/{slug}', [ProductController::class, 'show'])->name('products.show');
 });
 
-Route::get('/checkout', function () {
-    return view('checkout.index');
-})->name('checkout.index');
+Route::get('/checkout', [ProductController::class, 'index'])->name('checkout.index'); // Placeholder for view
+
+// Auth Routes
+Route::controller(\App\Http\Controllers\AuthController::class)->group(function () {
+    Route::get('/login', 'showLogin')->name('login');
+    Route::post('/login', 'login');
+    Route::get('/register', 'showRegister')->name('register');
+    Route::post('/register', 'register');
+    Route::post('/logout', 'logout')->name('logout');
+});

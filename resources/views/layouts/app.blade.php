@@ -15,8 +15,15 @@
                 </a>
                 <div class="hidden md:flex space-x-8">
                     <a href="{{ route('products.index') }}" class="font-nike-body font-medium text-nike-black hover:text-nike-gray-500 uppercase">Catalog</a>
-                    <a href="#" class="font-nike-body font-medium text-nike-black hover:text-nike-gray-500 uppercase">Men</a>
-                    <a href="#" class="font-nike-body font-medium text-nike-black hover:text-nike-gray-500 uppercase">Women</a>
+                    @guest
+                        <a href="{{ route('login') }}" class="font-nike-body font-medium text-nike-black hover:text-nike-gray-500 uppercase">Sign In</a>
+                    @else
+                        <a href="#" class="font-nike-body font-medium text-nike-black hover:text-nike-gray-500 uppercase">Account</a>
+                        <form method="POST" action="{{ route('logout') }}" class="inline">
+                            @csrf
+                            <button type="submit" class="font-nike-body font-medium text-nike-black hover:text-nike-gray-500 uppercase uppercase">Logout</button>
+                        </form>
+                    @endguest
                 </div>
                 <div class="flex items-center space-x-6">
                     <button class="text-nike-black hover:text-nike-gray-500">
