@@ -17,9 +17,12 @@ return new class extends Migration
             $table->string('sku')->unique();
             $table->string('size')->nullable();
             $table->string('color')->nullable();
-            $table->integer('stock')->default(0);
+            $table->unsignedInteger('stock')->default(0);
             $table->decimal('price_override', 15, 2)->nullable();
+            $table->softDeletes();
             $table->timestamps();
+
+            $table->index(['product_id', 'size', 'color']);
         });
     }
 

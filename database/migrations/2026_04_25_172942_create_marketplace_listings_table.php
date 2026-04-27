@@ -13,13 +13,14 @@ return new class extends Migration
     {
         Schema::create('marketplace_listings', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Assuming user table uses standard id, but wait...
-            $table->foreignUuid('product_id')->nullable()->constrained('products')->onDelete('set null'); // Optional reference to catalog
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignUuid('product_id')->nullable()->constrained('products')->onDelete('set null');
             $table->string('name');
             $table->text('description')->nullable();
             $table->decimal('price', 15, 2);
-            $table->unsignedTinyInteger('condition_rating'); // 0-100
-            $table->string('status')->default('pending'); // pending, active, sold, rejected
+            $table->unsignedTinyInteger('condition_rating');
+            $table->string('status')->default('pending')->index();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
