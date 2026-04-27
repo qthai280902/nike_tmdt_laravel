@@ -17,11 +17,12 @@ return new class extends Migration
             $table->string('name');
             $table->string('slug')->unique();
             $table->text('description')->nullable();
-            $table->decimal('price', 15, 2); // Nike prices can be high-precision
+            $table->decimal('price', 15, 2);
+            $table->string('image_url')->nullable(); // Nike prices can be high-precision
             $table->string('status')->default('active'); // active, inactive, archived
             $table->timestamps();
         });
-     }
+    }
 
     /**
      * Reverse the migrations.

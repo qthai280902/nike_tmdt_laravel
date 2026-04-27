@@ -4,17 +4,45 @@ namespace App\Services;
 
 use App\Models\Product;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Builder;
 
 class ProductService
 {
     /**
-     * Get paginated products for the B2C catalog.
+     * Get paginated products with filtering and sorting for the B2C catalog.
      */
-    public function getCatalogProducts(int $perPage = 12): LengthAwarePaginator
+    public function getCatalogProducts(array $filters = [], int $perPage = 12): LengthAwarePaginator
     {
-        return Product::with(['category', 'variants'])
-            ->latest()
-            ->paginate($perPage);
+        $query = Product::with(['category', 'variants']);
+
+        // Filter by Category
+        if (! empty($filters['category_id'])) {
+            $query->where('category_id', $filters['category_id']);
+        }
+
+        // Filter by Size
+        if (! empty($filters['size'])) {
+            $query->whereHas('variants', function (Builder $q) use ($filters) {
+                $q->where('size', $filters['size'])->where('stock', '>', 0);
+            });
+        }
+
+        // Filter by Color
+        if (! empty($filters['color'])) {
+            $query->whereHas('variants', function (Builder $q) use ($filters) {
+                $q->where('color', $filters['color']);
+            });
+        }
+
+        // Sorting
+        $sort = $filters['sort'] ?? 'latest';
+        match ($sort) {
+            'price_asc' => $query->orderBy('price', 'asc'),
+            'price_desc' => $query->orderBy('price', 'desc'),
+            default => $query->latest(),
+        };
+
+        return $query->paginate($perPage);
     }
 
     /**
@@ -45,10 +73,8 @@ class ProductService
      */
     public function checkStock(string $variantId, int $quantity = 1): bool
     {
-        $product = Product::whereHas('variants', function ($query) use ($variantId, $quantity) {
+        return Product::whereHas('variants', function ($query) use ($variantId, $quantity) {
             $query->where('id', $variantId)->where('stock', '>=', $quantity);
         })->exists();
-
-        return $product;
     }
 }
