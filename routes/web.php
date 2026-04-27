@@ -14,3 +14,7 @@ Route::prefix('catalog')->group(function () {
     Route::get('/products', [ProductController::class, 'index'])->name('products.index');
     Route::get('/products/{slug}', [ProductController::class, 'show'])->name('products.show');
 });
+
+Route::get('/checkout', function () {
+    return view('checkout.index');
+})->name('checkout.index');
