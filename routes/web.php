@@ -1,11 +1,13 @@
 <?php
 
 use App\Http\Controllers\AboutController;
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\StorefrontController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MarketplaceController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\WishlistController;
@@ -44,8 +46,17 @@ Route::middleware('auth')->group(function () {
     // Wishlist
     Route::post('/wishlist/toggle', [WishlistController::class, 'toggle'])->name('wishlist.toggle');
 
-    // Admin Routes (Quick Prototype)
-    Route::prefix('admin')->name('admin.')->group(function () {
+    // Marketplace (C2C)
+    Route::get('/marketplace', [MarketplaceController::class, 'index'])->name('marketplace.index');
+    Route::get('/marketplace/create', [MarketplaceController::class, 'create'])->name('marketplace.create')->middleware('auth');
+    Route::post('/marketplace', [MarketplaceController::class, 'store'])->name('marketplace.store')->middleware('auth');
+    Route::get('/marketplace/search-products', [MarketplaceController::class, 'search'])->name('marketplace.search');
+
+    // Admin Dashboard & Management
+    Route::prefix('admin')->name('admin.')->middleware('admin')->group(function () {
+        Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
+        Route::get('/marketplace', [AdminController::class, 'marketplaceIndex'])->name('marketplace.index');
+        Route::patch('/marketplace/{listing}/{status}', [AdminController::class, 'updateListingStatus'])->name('marketplace.update');
         Route::get('/storefront', [StorefrontController::class, 'index'])->name('storefront.index');
         Route::patch('/storefront/{product}', [StorefrontController::class, 'update'])->name('storefront.update');
     });

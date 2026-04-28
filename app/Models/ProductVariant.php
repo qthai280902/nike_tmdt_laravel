@@ -28,4 +28,12 @@ class ProductVariant extends Model
     {
         return $this->belongsTo(Product::class);
     }
+
+    /**
+     * Get the marketplace listings for this variant.
+     */
+    public function listings()
+    {
+        return $this->hasMany(MarketplaceListing::class, 'product_variant_id');
+    }
 }

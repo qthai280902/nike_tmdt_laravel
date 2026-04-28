@@ -44,6 +44,7 @@
                 <a href="{{ route('catalog.index') }}" class="{{ $pillClass }} {{ (!$isHome && !$currentCategory && !$isSale) ? $activePill : $inactivePill }}">Cửa hàng</a>
                 <a href="{{ route('catalog.index', ['category' => 'men']) }}" class="{{ $pillClass }} {{ $currentCategory == 'men' ? $activePill : $inactivePill }}">Nam</a>
                 <a href="{{ route('catalog.index', ['category' => 'women']) }}" class="{{ $pillClass }} {{ $currentCategory == 'women' ? $activePill : $inactivePill }}">Nữ</a>
+                <a href="{{ route('marketplace.index') }}" class="{{ $pillClass }} {{ request()->routeIs('marketplace.*') ? $activePill : $inactivePill }}">Chợ đồ cũ</a>
                 <a href="{{ route('catalog.sale') }}" class="{{ $pillClass }} {{ $isSale ? 'bg-nike-red text-white' : 'text-nike-red hover:bg-red-50' }}">Sale</a>
             </div>
 

@@ -11,6 +11,15 @@ class MarketplaceListing extends Model
 {
     use HasUuids, SoftDeletes;
 
+    protected $fillable = [
+        'user_id',
+        'product_variant_id',
+        'asking_price',
+        'condition',
+        'seller_description',
+        'status',
+    ];
+
     /**
      * Scope a query to only include active listings.
      */
@@ -18,16 +27,6 @@ class MarketplaceListing extends Model
     {
         return $query->where('status', 'active');
     }
-
-    protected $fillable = [
-        'user_id',
-        'product_id',
-        'name',
-        'description',
-        'price',
-        'condition_rating',
-        'status',
-    ];
 
     /**
      * Get the user that owns the listing.
@@ -38,10 +37,24 @@ class MarketplaceListing extends Model
     }
 
     /**
-     * Get the original product catalog reference if exists.
+     * Get the specific product variant being sold.
      */
-    public function product(): BelongsTo
+    public function variant(): BelongsTo
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(ProductVariant::class, 'product_variant_id');
+    }
+
+    /**
+     * Accessor for condition label.
+     */
+    public function getConditionLabelAttribute(): string
+    {
+        return match ($this->condition) {
+            'new_with_box' => 'Mới (Nguyên hộp)',
+            'like_new' => 'Như mới',
+            'good' => 'Tốt',
+            'fair' => 'Cũ',
+            default => 'Không xác định',
+        };
     }
 }
