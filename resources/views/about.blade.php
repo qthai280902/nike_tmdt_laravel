@@ -9,7 +9,7 @@
         <div class="relative z-10">
             <h1 class="text-nike-hero tracking-tighter leading-none mb-16 animate-[fade-in-up_0.8s_forwards]">NIKE HYBRID.</h1>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
-                <p class="text-4xl font-bold uppercase italic tracking-tighter leading-tight animate-[fade-in-up_1s_forwards_0.2s]">
+                <p class="text-4xl font-bold uppercase  tracking-tighter leading-tight animate-[fade-in-up_1s_forwards_0.2s]">
                     Nơi sự chính xác của B2C gặp gỡ di sản của C2C.
                 </p>
                 <div class="space-y-8 text-nike-gray-400 font-medium leading-relaxed animate-[fade-in-up_1.2s_forwards_0.4s]">

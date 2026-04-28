@@ -1,14 +1,15 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\AboutController;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\CartController;
 use App\Http\Controllers\Admin\StorefrontController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\WishlistController;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/about-us', [AboutController::class, 'index'])->name('about');
@@ -39,6 +40,9 @@ Route::controller(AuthController::class)->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+    // Wishlist
+    Route::post('/wishlist/toggle', [WishlistController::class, 'toggle'])->name('wishlist.toggle');
 
     // Admin Routes (Quick Prototype)
     Route::prefix('admin')->name('admin.')->group(function () {

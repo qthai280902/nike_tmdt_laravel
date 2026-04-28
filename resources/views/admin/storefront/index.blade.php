@@ -38,7 +38,7 @@
                                 {{ $product->featured_position }}
                             </span>
                         @else
-                            <span class="text-nike-gray-300 text-xs italic">none</span>
+                            <span class="text-nike-gray-300 text-xs ">none</span>
                         @endif
                     </td>
                     <td class="px-6 py-4 text-right">

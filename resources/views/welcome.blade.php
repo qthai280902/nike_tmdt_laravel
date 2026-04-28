@@ -13,8 +13,8 @@
 
         <div class="relative z-10 px-6 md:px-12 max-w-[1920px] mx-auto w-full">
             <div class="max-w-3xl">
-                <p class="font-bold text-white mb-4 uppercase tracking-[0.2em] animate-[fade-in-up_0.6s_forwards] italic text-sm">{{ $heroProduct->category->name ?? 'Hàng Mới Về' }}</p>
-                <h1 class="text-nike-hero text-white mb-8 animate-[fade-in-up_0.8s_forwards_0.2s] tracking-tighter">{{ $heroProduct->name }}</h1>
+                <p class="font-bold text-white mb-4 uppercase tracking-[0.2em] animate-[fade-in-up_0.6s_forwards]  text-sm font-nike-body">{{ $heroProduct->category->name ?? 'Hàng Mới Về' }}</p>
+                <h1 class="text-nike-hero text-white mb-8 animate-[fade-in-up_0.8s_forwards_0.2s] tracking-tighter font-nike-display">{{ $heroProduct->name }}</h1>
                 <p class="text-white/80 font-nike-body text-xl mb-10 max-w-xl animate-[fade-in-up_1s_forwards_0.3s] leading-relaxed">
                     {{ Str::limit($heroProduct->description, 120) }}
                 </p>
@@ -44,7 +44,7 @@
                         </div>
                         <div class="flex justify-between items-start">
                             <div class="space-y-1">
-                                <h3 class="font-bold text-nike-black uppercase text-sm group-hover:text-nike-gray-500 transition-colors italic">{{ $product->name }}</h3>
+                                <h3 class="font-bold text-nike-black uppercase text-sm group-hover:text-nike-gray-500 transition-colors ">{{ $product->name }}</h3>
                                 <p class="text-nike-gray-500 text-sm font-medium">{{ $product->category->name }}</p>
                             </div>
                             <span class="text-sm font-bold">{{ number_format($product->price, 0, ',', '.') }}₫</span>

@@ -20,9 +20,9 @@
             <table class="w-full text-left font-nike-body border-collapse">
                 <thead>
                     <tr class="bg-nike-gray-100 uppercase text-xs tracking-tighter border-b border-nike-gray-200">
-                        <th class="px-6 py-4 font-bold italic">US (Mỹ)</th>
-                        <th class="px-6 py-4 font-bold italic">EU (Châu Âu)</th>
-                        <th class="px-6 py-4 font-bold italic">CM (Chiều dài chân)</th>
+                        <th class="px-6 py-4 font-bold ">US (Mỹ)</th>
+                        <th class="px-6 py-4 font-bold ">EU (Châu Âu)</th>
+                        <th class="px-6 py-4 font-bold ">CM (Chiều dài chân)</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-nike-gray-200">
@@ -45,7 +45,7 @@
             </table>
         </div>
         
-        <p class="mt-8 text-nike-gray-500 text-sm leading-relaxed italic">
+        <p class="mt-8 text-nike-gray-500 text-sm leading-relaxed ">
             * Lưu ý: Đây là bảng kích cỡ tiêu chuẩn của Nike. Nếu chân bạn rộng hoặc mu bàn chân cao, bạn nên cân nhắc tăng 0.5 size.
         </p>
     </div>
@@ -73,17 +73,20 @@
                         <span class="font-nike-body font-medium uppercase text-sm">Chọn kích cỡ (US)</span>
                         <button onclick="toggleSizeGuide()" class="text-nike-gray-500 text-sm underline hover:text-nike-black transition-colors">Bảng kích cỡ</button>
                     </div>
-                    <div class="grid grid-cols-3 gap-2">
+                    <div class="grid grid-cols-3 gap-2 mb-4">
                         @foreach($product->variants as $variant)
                             <label class="relative group cursor-pointer">
-                                <input type="radio" name="variant_id" value="{{ $variant->id }}" class="peer absolute opacity-0 w-full h-full cursor-pointer">
+                                <input type="radio" name="variant_id" value="{{ $variant->id }}" data-stock="{{ $variant->stock }}" class="peer absolute opacity-0 w-full h-full cursor-pointer">
                                 <div class="border border-nike-gray-200 py-3 rounded-md font-nike-body text-center transition-all peer-checked:border-nike-black peer-checked:bg-nike-black peer-checked:text-white hover:border-nike-black">
                                     {{ str_replace('US ', '', $variant->size) }}
                                 </div>
                             </label>
                         @endforeach
                     </div>
-                    <p id="size-error" class="text-nike-red text-xs mt-2 hidden text-center italic">Vui lòng chọn size trước khi thêm vào giỏ.</p>
+                    <div id="stock-display" class="text-[10px] font-black uppercase tracking-widest text-nike-gray-400 ">
+                        Chọn size để xem tồn kho
+                    </div>
+                    <p id="size-error" class="text-nike-red text-xs mt-2 hidden text-center ">Vui lòng chọn size trước khi thêm vào giỏ.</p>
                 </div>
 
                 {{-- Action Buttons --}}
@@ -95,13 +98,30 @@
                     >
                         Thêm Vào Giỏ
                     </x-pill-button>
-                    <button type="button" class="w-full py-5 border border-nike-gray-200 rounded-full font-nike-body font-medium flex items-center justify-center hover:border-nike-black transition-colors">
-                        Yêu Thích
-                        <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
-                    </button>
+                    
+                    @auth
+                        @php
+                            $isWishlisted = auth()->user()->wishlistProducts()->where('product_id', $product->id)->exists();
+                        @endphp
+                        <button 
+                            onclick="toggleWishlist('{{ $product->id }}')" 
+                            id="wishlist-btn"
+                            class="w-full py-5 border border-nike-gray-200 rounded-full font-nike-body font-medium flex items-center justify-center hover:border-nike-black transition-colors"
+                        >
+                            <span id="wishlist-text">{{ $isWishlisted ? 'Đã Yêu Thích' : 'Yêu Thích' }}</span>
+                            <svg id="wishlist-icon" class="w-5 h-5 ml-2 transition-all {{ $isWishlisted ? 'fill-nike-red stroke-nike-red' : '' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                            </svg>
+                        </button>
+                    @else
+                        <a href="{{ route('login') }}" class="w-full py-5 border border-nike-gray-200 rounded-full font-nike-body font-medium flex items-center justify-center hover:border-nike-black transition-colors">
+                            Yêu Thích
+                            <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                        </a>
+                    @endauth
                 </div>
 
-                <div class="mt-12 prose prose-sm font-nike-body text-nike-gray-500 leading-relaxed border-t border-nike-gray-100 pt-8 uppercase text-[12px] tracking-widest font-bold italic">
+                <div class="mt-12 prose prose-sm font-nike-body text-nike-gray-500 leading-relaxed border-t border-nike-gray-100 pt-8 uppercase text-[12px] tracking-widest font-bold ">
                     <p>{{ $product->description }}</p>
                 </div>
             </div>
@@ -114,6 +134,48 @@
         const modal = document.getElementById('size-guide-modal');
         modal.classList.toggle('hidden');
         document.body.classList.toggle('overflow-hidden');
+    }
+
+    // --- DYNAMIC STOCK DISPLAY ---
+    document.querySelectorAll('input[name="variant_id"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+            const stock = this.getAttribute('data-stock');
+            const display = document.getElementById('stock-display');
+            display.innerText = `Tồn kho: ${stock}`;
+            display.classList.remove('text-nike-gray-400');
+            display.classList.add('text-nike-black');
+        });
+    });
+
+    // --- WISHLIST TOGGLE ---
+    async function toggleWishlist(productId) {
+        try {
+            const response = await fetch("{{ route('wishlist.toggle') }}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({ product_id: productId })
+            });
+
+            const data = await response.json();
+            const btnText = document.getElementById('wishlist-text');
+            const icon = document.getElementById('wishlist-icon');
+
+            if (data.status === 'added') {
+                btnText.innerText = 'Đã Yêu Thích';
+                icon.classList.add('fill-nike-red', 'stroke-nike-red');
+                showSuccessModal('Đã thêm vào yêu thích');
+            } else {
+                btnText.innerText = 'Yêu Thích';
+                icon.classList.remove('fill-nike-red', 'stroke-nike-red');
+                showSuccessModal('Đã xóa khỏi yêu thích');
+            }
+        } catch (error) {
+            console.error('Wishlist error:', error);
+        }
     }
 
     async function handleAjaxAddToCart() {

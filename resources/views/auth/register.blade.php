@@ -10,8 +10,8 @@
             <svg class="w-16 mx-auto mb-6" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M21 8.719L7.836 14.303C6.74 14.768 5.818 15 5.075 15c-.836 0-1.445-.295-1.819-.884-.485-.76-.273-1.982.559-3.272.494-.754 1.122-1.446 1.734-2.108-.144.234-1.415 2.349-.025 3.345.275.2.666.298 1.147.298.386 0 .829-.063 1.316-.19L21 8.719z"></path>
             </svg>
-            <h1 class="text-3xl font-bold uppercase tracking-tighter mb-2 italic">Trở thành thành viên Nike</h1>
-            <p class="text-nike-gray-500 text-sm font-medium">Tạo hồ sơ Nike Member của bạn để nhận quyền truy cập sớm vào các sản phẩm tốt nhất.</p>
+            <h1 class="text-3xl font-bold uppercase tracking-tighter mb-2 font-nike-display">Trở thành thành viên Nike</h1>
+            <p class="text-nike-gray-500 text-sm font-medium font-nike-body">Tạo hồ sơ Nike Member của bạn để nhận quyền truy cập sớm vào các sản phẩm tốt nhất.</p>
         </div>
 
         {{-- Register Form --}}
@@ -22,21 +22,21 @@
             <div>
                 <input type="text" name="name" value="{{ old('name') }}" placeholder="Họ và Tên" required
                     class="w-full px-4 py-3 border border-nike-gray-200 rounded-md focus:border-nike-black focus:ring-0 transition-colors placeholder:text-nike-gray-400 font-medium">
-                @error('name') <p class="text-nike-red text-[11px] mt-1 font-bold italic uppercase">{{ $message }}</p> @enderror
+                @error('name') <p class="text-nike-red text-[11px] mt-1 font-bold  uppercase">{{ $message }}</p> @enderror
             </div>
 
             {{-- Email --}}
             <div>
                 <input type="email" name="email" value="{{ old('email') }}" placeholder="Địa chỉ Email" required
                     class="w-full px-4 py-3 border border-nike-gray-200 rounded-md focus:border-nike-black focus:ring-0 transition-colors placeholder:text-nike-gray-400 font-medium">
-                @error('email') <p class="text-nike-red text-[11px] mt-1 font-bold italic uppercase">{{ $message }}</p> @enderror
+                @error('email') <p class="text-nike-red text-[11px] mt-1 font-bold  uppercase">{{ $message }}</p> @enderror
             </div>
 
             {{-- Password --}}
             <div>
                 <input type="password" name="password" placeholder="Mật khẩu" required
                     class="w-full px-4 py-3 border border-nike-gray-200 rounded-md focus:border-nike-black focus:ring-0 transition-colors placeholder:text-nike-gray-400 font-medium">
-                @error('password') <p class="text-nike-red text-[11px] mt-1 font-bold italic uppercase">{{ $message }}</p> @enderror
+                @error('password') <p class="text-nike-red text-[11px] mt-1 font-bold  uppercase">{{ $message }}</p> @enderror
             </div>
 
             {{-- Password Confirmation --}}

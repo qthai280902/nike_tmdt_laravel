@@ -7,7 +7,7 @@
     {{-- Header --}}
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-6">
         <div>
-            <h1 class="text-4xl font-nike-display uppercase tracking-tighter italic">
+            <h1 class="text-4xl font-nike-display uppercase tracking-tighter ">
                 @if(request()->routeIs('catalog.sale'))
                     Sale Cathedral.
                 @elseif(request()->get('category'))
@@ -16,17 +16,17 @@
                     Mọi Sản Phẩm.
                 @endif
             </h1>
-            <p class="text-nike-gray-500 font-medium text-sm mt-1">Khám phá phong cách và hiệu suất đỉnh cao.</p>
+            <p class="text-nike-gray-500 font-medium text-sm mt-1 font-nike-body">Khám phá phong cách và hiệu suất đỉnh cao.</p>
         </div>
 
         {{-- Filter/Sort Bar --}}
         <div class="flex items-center space-x-4 w-full md:w-auto">
             <button class="flex items-center space-x-2 px-4 py-2 border border-nike-gray-200 rounded-full hover:border-nike-black transition-colors">
-                <span class="text-xs font-bold uppercase tracking-widest italic">Lọc</span>
+                <span class="text-xs font-bold uppercase tracking-widest ">Lọc</span>
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4.5h18m-18 5h18m-18 5h18m-18 5h18"></path></svg>
             </button>
             <div class="relative">
-                <select onchange="window.location.href=this.value" class="appearance-none bg-white border border-nike-gray-200 px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest italic pr-10 focus:ring-0 focus:border-nike-black cursor-pointer">
+                <select onchange="window.location.href=this.value" class="appearance-none bg-white border border-nike-gray-200 px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest  pr-10 focus:ring-0 focus:border-nike-black cursor-pointer">
                     <option value="{{ request()->fullUrlWithQuery(['sort' => 'latest']) }}" {{ request('sort') == 'latest' ? 'selected' : '' }}>Mới nhất</option>
                     <option value="{{ request()->fullUrlWithQuery(['sort' => 'price_asc']) }}" {{ request('sort') == 'price_asc' ? 'selected' : '' }}>Giá: Thấp-Cao</option>
                     <option value="{{ request()->fullUrlWithQuery(['sort' => 'price_desc']) }}" {{ request('sort') == 'price_desc' ? 'selected' : '' }}>Giá: Cao-Thấp</option>
@@ -39,12 +39,12 @@
         {{-- Sidebar Filters (Standard Nike Layout) --}}
         <aside class="hidden lg:block w-64 flex-shrink-0 space-y-10">
             <div>
-                <h3 class="text-[13px] font-black uppercase mb-6 tracking-tighter italic">Danh mục</h3>
+                <h3 class="text-[13px] font-black uppercase mb-6 tracking-tighter ">Danh mục</h3>
                 <ul class="space-y-3">
                     @foreach($categories as $cat)
                         <li><a href="{{ route('catalog.index', ['category' => $cat->slug]) }}" class="text-sm font-medium hover:text-nike-gray-500 {{ request('category') == $cat->slug ? 'font-bold underline' : '' }}">{{ $cat->name }}</a></li>
                     @endforeach
-                    <li><a href="{{ route('catalog.sale') }}" class="text-sm font-bold text-nike-red hover:text-red-700 italic {{ request()->routeIs('catalog.sale') ? 'underline' : '' }}">Đang Giảm Giá</a></li>
+                    <li><a href="{{ route('catalog.sale') }}" class="text-sm font-bold text-nike-red hover:text-red-700  {{ request()->routeIs('catalog.sale') ? 'underline' : '' }}">Đang Giảm Giá</a></li>
                 </ul>
             </div>
         </aside>
@@ -62,10 +62,10 @@
                                @if($product->original_price && $product->price < $product->original_price)
                                     <span class="text-nike-red text-[11px] font-black uppercase tracking-tighter">Đang Giảm Giá</span>
                                @endif
-                                <h3 class="font-bold text-nike-black uppercase text-[13px] tracking-tight group-hover:text-nike-gray-500 transition-colors italic leading-none">{{ $product->name }}</h3>
+                                <h3 class="font-bold text-nike-black uppercase text-[13px] tracking-tight group-hover:text-nike-gray-500 transition-colors  leading-none">{{ $product->name }}</h3>
                                 <p class="text-nike-gray-500 text-[12px] font-medium leading-none">{{ $product->category->name }}</p>
                                 
-                                <div class="pt-2 flex items-center space-x-2">
+                                <div class="pt-2 flex items-center space-x-2 font-nike-body">
                                     <span class="font-bold text-sm tracking-tight">{{ number_format($product->price, 0, ',', '.') }}₫</span>
                                     @if($product->original_price && $product->price < $product->original_price)
                                         <span class="text-nike-gray-400 text-xs line-through">{{ number_format($product->original_price, 0, ',', '.') }}₫</span>

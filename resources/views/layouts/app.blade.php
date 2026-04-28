@@ -7,7 +7,7 @@
     <!-- Montserrat Font -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="bg-white text-nike-black antialiased overflow-x-hidden">
+<body class="bg-white text-nike-black antialiased overflow-x-hidden font-nike-body">
 
     {{-- Global Navigation --}}
     <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-nike-gray-100">
@@ -103,6 +103,55 @@
     <x-cart-drawer />
 
     <script>
+        // --- SEARCH ENGINE ---
+        let searchTimeout;
+        const searchInput = document.getElementById('global-search-input');
+        const suggestionsBox = document.getElementById('search-suggestions');
+        const suggestionsList = document.getElementById('suggestions-list');
+
+        searchInput.addEventListener('input', function() {
+            clearTimeout(searchTimeout);
+            const query = this.value.trim();
+
+            if (query.length < 2) {
+                suggestionsBox.classList.add('hidden');
+                return;
+            }
+
+            searchTimeout = setTimeout(async () => {
+                try {
+                    const response = await fetch(`/catalog/search/suggestions?q=${encodeURIComponent(query)}`);
+                    const data = await response.json();
+
+                    if (data.length > 0) {
+                        suggestionsList.innerHTML = data.map(item => `
+                            <a href="/catalog/products/${item.slug}" class="flex items-center p-4 hover:bg-nike-gray-50 transition-colors group">
+                                <div class="w-12 h-12 bg-nike-gray-100 flex-shrink-0">
+                                    <img src="${item.image}" class="w-full h-full object-cover">
+                                </div>
+                                <div class="ml-4">
+                                    <p class="text-[13px] font-bold uppercase tracking-tight  group-hover:text-nike-gray-500">${item.name}</p>
+                                    <p class="text-[10px] text-nike-gray-400 uppercase font-medium">${item.category}</p>
+                                </div>
+                            </a>
+                        `).join('');
+                        suggestionsBox.classList.remove('hidden');
+                    } else {
+                        suggestionsBox.classList.add('hidden');
+                    }
+                } catch (error) {
+                    console.error('Search error:', error);
+                }
+            }, 300);
+        });
+
+        // Close search on click outside
+        document.addEventListener('click', (e) => {
+            if (!searchInput.contains(e.target) && !suggestionsBox.contains(e.target)) {
+                suggestionsBox.classList.add('hidden');
+            }
+        });
+
         function toggleCart() {
             const drawer = document.getElementById('cart-drawer');
             const overlay = document.getElementById('cart-drawer-overlay');

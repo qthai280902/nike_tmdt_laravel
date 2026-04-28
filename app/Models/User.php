@@ -5,6 +5,8 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -66,8 +68,24 @@ class User extends Authenticatable
     /**
      * Get the marketplace listings for the user.
      */
-    public function marketplaceListings(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function marketplaceListings(): HasMany
     {
         return $this->hasMany(MarketplaceListing::class);
+    }
+
+    /**
+     * The products that the user has wishlisted.
+     */
+    public function wishlistProducts(): BelongsToMany
+    {
+        return $this->belongsToMany(Product::class, 'wishlists');
+    }
+
+    /**
+     * Get the orders for the user.
+     */
+    public function orders(): HasMany
+    {
+        return $this->hasMany(Order::class);
     }
 }

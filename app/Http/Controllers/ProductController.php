@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ProductResource;
 use App\Models\Category;
 use App\Models\Product;
-use App\Http\Resources\ProductResource;
 use App\Services\ProductService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -39,7 +39,7 @@ class ProductController extends Controller
     {
         $filters = $request->all();
         $filters['on_sale'] = true;
-        
+
         $products = $this->productService->getCatalogProducts($filters, $request->get('limit', 12));
         $categories = Category::all();
 
@@ -55,7 +55,7 @@ class ProductController extends Controller
 
         if (! $product) {
             if ($request->expectsJson()) {
-                return response()->json(['message' => 'Product not found'], 404);
+                return response()->json(['message' => 'Không tìm thấy sản phẩm'], 404);
             }
             abort(404);
         }
@@ -73,7 +73,7 @@ class ProductController extends Controller
     public function searchSuggestions(Request $request)
     {
         $query = $request->get('q');
-        
+
         if (strlen($query) < 2) {
             return response()->json([]);
         }
@@ -83,12 +83,12 @@ class ProductController extends Controller
             ->limit(5)
             ->get();
 
-        return response()->json($products->map(function($product) {
+        return response()->json($products->map(function ($product) {
             return [
                 'name' => $product->name,
                 'slug' => $product->slug,
                 'category' => $product->category->name,
-                'image' => $product->image_url
+                'image' => $product->image_url,
             ];
         }));
     }
